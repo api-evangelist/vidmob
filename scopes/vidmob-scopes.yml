@@ -1,0 +1,124 @@
+generated: '2026-08-05'
+method: searched
+source: https://vidmob-api-docs.readme.io/docs/authentication
+docs:
+  - https://vidmob-api-docs.readme.io/docs/authentication
+  - https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+note: >-
+  Vidmob runs two distinct scope vocabularies. The REST API keys carry capability-domain scopes (organization / scoring
+  / aperture / analytics with read or read_write access) that are documented in the developer portal but are NOT
+  declared in the published OpenAPI — the specs only declare a single apiKey scheme, so 0-working/derive-oauth-scopes.py
+  finds nothing. The MCP authorization server publishes a separate OIDC-style scope set in its RFC 8414 / OIDC discovery
+  documents. Both are recorded below with their real source.
+schemes:
+  - name: vidmob-api-key
+    type: apiKey
+    in: header
+    parameter: Authorization
+    scheme: Bearer
+    issued_per: organization
+    management_url: https://acs.vidmob.com/api-key-management
+    source: https://vidmob-api-docs.readme.io/docs/authentication
+  - name: vidmob-mcp-oauth
+    type: oauth2
+    source: https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://acs.vidmob.com/oauth/authorize
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+        registrationUrl: https://mcp-auth.vidmob.com/v1/oauth2/register
+        code_challenge_methods: [S256]
+      - flow: refreshToken
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+      - flow: jwtBearer
+        grant_type: urn:ietf:params:oauth:grant-type:jwt-bearer
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+scopes:
+  - scope: scoring:read
+    description: >-
+      View guidelines, criteria, scorecards and scores. Covers GET /v1/scoring/workspace/{workspaceId}/scorecards,
+      GET /v1/scoring/scorecard/{scorecardId}/media-metadata, GET /v1/scoring/media/{mediaId}/scores,
+      GET /v1/media/{mediaId}/status, POST /v1/scoring/criteria/metadata and GET /v1/media/updated-scores.
+    domain: scoring
+    access: read
+    kind: api-key
+    sources: [https://vidmob-api-docs.readme.io/docs/authentication]
+  - scope: scoring:read_write
+    description: >-
+      Submit media for scoring (POST /v1/media, and upload reservation on the MCP surface) plus everything
+      scoring:read grants.
+    domain: scoring
+    access: read_write
+    kind: api-key
+    sources: [https://vidmob-api-docs.readme.io/docs/authentication]
+  - scope: aperture:read
+    description: Retrieve Creative Tags job status and results — GET /v1/media/aperture/{jobId}.
+    domain: aperture
+    access: read
+    kind: api-key
+    sources: [https://vidmob-api-docs.readme.io/docs/authentication]
+  - scope: aperture:read_write
+    description: Submit assets for tagging — POST /v1/media/aperture — plus everything aperture:read grants.
+    domain: aperture
+    access: read_write
+    kind: api-key
+    sources: [https://vidmob-api-docs.readme.io/docs/authentication]
+  - scope: organization:read
+    description: >-
+      Workspace and ad-account reference data. A valid key with no specific scope already reaches
+      GET /v1/organization, GET /v1/permission and GET /v1/workspaces.
+    domain: organization
+    access: read
+    kind: api-key
+    sources: [https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview]
+  - scope: analytics:read
+    description: Media performance and KPI discovery. Exposed on the MCP surface only; no public REST operation.
+    domain: analytics
+    access: read
+    kind: api-key
+    sources: [https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview]
+  - scope: openid
+    description: OIDC subject identity on the MCP authorization server.
+    kind: oauth2
+    flows: [authorizationCode]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+  - scope: profile
+    kind: oauth2
+    flows: [authorizationCode]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+  - scope: email
+    kind: oauth2
+    flows: [authorizationCode]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+  - scope: phone
+    kind: oauth2
+    flows: [authorizationCode]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+  - scope: offline_access
+    description: Issues a refresh token so an agent stays connected after the one-time interactive sign-in.
+    kind: oauth2
+    flows: [authorizationCode, refreshToken]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+  - scope: full_access
+    description: >-
+      Advertised in the OIDC discovery document's scopes_supported but absent from the RFC 8414
+      oauth-authorization-server document and undocumented in the help center.
+    kind: oauth2
+    flows: [authorizationCode]
+    sources: [https://mcp-auth.vidmob.com/.well-known/openid-configuration]
+withheld:
+  - scope: admin
+    reason: >-
+      Vidmob states administrative capabilities sit behind an internal-only admin scope that is never granted to
+      external partner credentials. Recorded for completeness; not obtainable by a customer.
+    sources: [https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview]
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://mcp-auth.vidmob.com/.well-known/openid-configuration
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://vidmob-api-docs.readme.io/docs/authentication.md
+    http_status: 200

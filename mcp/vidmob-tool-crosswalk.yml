@@ -1,0 +1,113 @@
+generated: '2026-08-05'
+method: derived
+source: mcp/vidmob-mcp.yml + openapi/vidmob-creative-scoring-openapi.json + openapi/vidmob-public-api-openapi.json + openapi/vidmob-creative-aperture-openapi.json
+confidence_note: >-
+  Vidmob's MCP tools/list is auth-gated (401) AND scope-filtered, so no tool NAMES or inputSchemas could be read off the
+  wire. The rows below therefore bind the publicly DOCUMENTED MCP capability areas to the REST operationIds that back
+  the same data, by semantics — not by an observed tool manifest. Every confidence value is set accordingly (no row is
+  high). No tool name is invented: each `capability` string is the heading Vidmob publishes in
+  https://help.vidmob.com/en/articles/15555021-what-does-the-vidmob-mcp-do.
+surfaces:
+  openapi:
+    host: https://public-api.vidmob.com
+    gated: false
+    files:
+      - file: openapi/vidmob-creative-scoring-openapi.json
+        operations: 7
+      - file: openapi/vidmob-creative-aperture-openapi.json
+        operations: 2
+      - file: openapi/vidmob-public-api-openapi.json
+        operations: 2
+  graphql: null
+  mcp:
+    url: https://mcp.vidmob.com/mcp
+    gated: true
+    gate: OAuth bearer / per-organization API key; tool visibility additionally filtered by scope
+crosswalk:
+  - capability: Account and channel structure
+    category: organization
+    rest:
+      - get-organization
+      - get-organization-copy
+    binding: rest
+    confidence: medium
+    note: >-
+      REST covers organization identity and the workspace list. The MCP capability additionally covers connected
+      channels, ad accounts, brands, markets, campaigns, ad groups and ads, which have no public REST operation.
+  - capability: Creative scoring
+    category: scoring
+    rest:
+      - upload-media-for-scoring
+      - get-media-scoring-status
+      - get-media-score
+    binding: rest
+    confidence: medium
+    note: >-
+      The documented MCP flow ("submit a creative asset and get back an overall score plus a guideline-by-guideline
+      breakdown") is the same submit → poll → fetch triple the REST API exposes. The MCP surface collapses the polling
+      step for the caller; the REST operations are the authoritative input contract.
+  - capability: Creative scoring (guideline discovery)
+    category: scoring
+    rest:
+      - get-criteria-metadata
+      - get-workspace-scorecards
+      - get_v1scoringworkspace{workspaceId}scorecards-1
+    binding: rest
+    confidence: low
+    note: >-
+      Guideline/scorecard context is implied by the MCP scoring answers but Vidmob does not document a discrete
+      guideline-browsing tool. Mapped by semantics to the REST criteria and scorecard operations.
+  - capability: Creative attributes
+    category: scoring
+    rest:
+      - create-creative-aperture-job
+      - get-creative-aperture-job-status
+    binding: rest
+    confidence: medium
+    note: >-
+      MCP returns AI-detected attributes inline for an asset already known to Vidmob; the REST equivalent is the
+      Creative Aperture job pair, which requires submitting the asset and polling for a signed download URL.
+  - capability: Asset detail
+    category: scoring
+    rest:
+      - get_v1scoringworkspace{workspaceId}scorecards-1
+    binding: rest
+    confidence: low
+    note: >-
+      Scorecard media-metadata is the closest REST analogue for file details and workspace/brand ownership. The MCP
+      capability additionally returns ad context (campaigns, ads, live/paused, delivery countries, attributed spend),
+      which REST does not expose.
+mcp_only:
+  - capability: Media library search
+    reason: >-
+      No public REST operation searches the media library by channel, campaign, objective, ad group / ad set, DV360
+      insertion order or line item, ad type, placement or impression volume. REST only offers scorecard-scoped media
+      metadata and a changed-since feed.
+  - capability: Creative performance
+    reason: >-
+      Asset-level KPI, impressions and comparison-to-average data is served by the `analytics` scope domain on MCP. The
+      public REST API publishes no analytics/performance operation.
+  - capability: Ad-account and channel graph
+    reason: >-
+      Connected channels, ad accounts, brands and markets — and their campaign/ad-group/ad hierarchy — are reachable
+      only through MCP. REST stops at organization + workspaces.
+  - capability: Creative Drivers
+    reason: Announced as coming next on MCP; no REST equivalent and not yet shipped.
+rest_only:
+  - operation: get_v1mediaupdated-scores
+    capability: Changed-since feed of media whose scores were updated after a given date
+    reason: No documented MCP capability covers score-change polling.
+  - operation: get-workspace-scorecards
+    capability: Browse and filter workspace scorecards
+    reason: Scorecard browsing is not surfaced as a documented MCP capability.
+  - operation: get-criteria-metadata
+    capability: Enumerate scoring criteria/guidelines across an organization
+    reason: Guideline enumeration is not surfaced as a documented MCP capability.
+coverage:
+  capabilities_documented: 6
+  capabilities_bound_to_rest: 4
+  mcp_only: 4
+  rest_operations_total: 11
+  rest_operations_with_a_capability: 8
+  tools_named_by_provider: 0
+  tools_observed_via_tools_list: 0

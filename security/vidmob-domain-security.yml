@@ -1,0 +1,39 @@
+generated: '2026-08-05'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: vidmob.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 04:59:17 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: vidmob-api-docs.readme.io
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct  9 13:12:37 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: public-api.vidmob.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov  7 22:44:20 2026 GMT
+  hsts: null
+domains:
+- domain: vidmob.com
+  dnssec: false
+  caa:
+  - 0 issue "godaddy.com"
+  - 0 issue "letsencrypt.org"
+  - 0 issue "pki.goog"
+  - 0 iodef "mailto:admin@vidmob.com"
+  - 0 issue "amazon.com"
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: readme.io
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: quarantine

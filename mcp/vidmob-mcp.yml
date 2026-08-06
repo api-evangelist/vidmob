@@ -1,0 +1,128 @@
+generated: '2026-08-05'
+method: searched
+status: published
+source: https://help.vidmob.com/en/articles/15465541-setting-up-the-vidmob-mcp-connector
+server:
+  name: vidmob
+  url: https://mcp.vidmob.com/mcp
+  transport: http
+  transports:
+    - streamable-http
+    - sse
+  docs:
+    - https://help.vidmob.com/en/articles/15465541-setting-up-the-vidmob-mcp-connector
+    - https://help.vidmob.com/en/articles/15555021-what-does-the-vidmob-mcp-do
+    - https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+authentication:
+  models:
+    - type: oauth2
+      flow: authorization_code
+      pkce: S256
+      dynamic_client_registration: true
+      dcr_spec: RFC 7591
+      registration_endpoint: https://mcp-auth.vidmob.com/v1/oauth2/register
+      authorization_endpoint: https://acs.vidmob.com/oauth/authorize
+      token_endpoint: https://mcp-auth.vidmob.com/v1/oauth2/token
+      issuer: https://mcp-auth.vidmob.com
+      jwks_uri: https://mcp-auth.vidmob.com/.well-known/jwks.json
+      audience_bound: true
+      tenant_claim: organization_id
+      note: >-
+        Client ID Metadata Document (CIMD) is explicitly not supported
+        (client_id_metadata_document_supported: false); Vidmob defers it to a later phase.
+    - type: apiKey
+      in: header
+      parameter: Authorization
+      scheme: Bearer
+      issued_per: organization
+      management_url: https://acs.vidmob.com/api-key-management
+      note: For headless/server-to-server agents that cannot complete an interactive sign-in.
+  discovery:
+    protected_resource: https://mcp.vidmob.com/.well-known/oauth-protected-resource
+    authorization_server: https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    openid_configuration: https://mcp-auth.vidmob.com/.well-known/openid-configuration
+    challenge: 'WWW-Authenticate: Bearer resource_metadata="https://mcp.vidmob.com/.well-known/oauth-protected-resource"'
+introspection:
+  tools_list: gated
+  http_status: 401
+  probed: '2026-08-05'
+  request: 'POST https://mcp.vidmob.com/mcp {"jsonrpc":"2.0","id":1,"method":"tools/list"}'
+  response: '{"message":"Missing Authorization header. Use \"Authorization: Bearer <token>\".","error":"Unauthorized","statusCode":401}'
+  note: >-
+    The live tool manifest requires an authenticated, organization-bound token, so no inputSchema could be captured.
+    Vidmob also filters tool visibility by scope, so even an authenticated tools/list returns only the subset a
+    connection's scopes permit — there is no anonymous view of the full tool set. The capabilities below are the
+    capability areas Vidmob documents publicly, NOT tool names read off the wire.
+capabilities:
+  source: https://help.vidmob.com/en/articles/15555021-what-does-the-vidmob-mcp-do
+  status: documented
+  areas:
+    - name: Account and channel structure
+      description: >-
+        Enumerate organization structure — connected channels, ad accounts, brands, markets and workspaces — plus the
+        campaigns, ad groups, ads and creatives running through them. Ad accounts can be narrowed to a single brand.
+      scope_domain: organization
+      access: read
+    - name: Media library search
+      description: >-
+        Find creative filtered by channel, date range, campaign, objective, ad group / ad set (insertion order and line
+        item for DV360), ad type, placement and impression volume (minimum or range, per ad or summed).
+      scope_domain: scoring
+      access: read
+    - name: Creative scoring
+      description: >-
+        Submit a creative asset and receive an overall points-weighted guideline score plus a guideline-by-guideline
+        breakdown of what passed, failed, or could not be evaluated.
+      scope_domain: scoring
+      access: read_write
+    - name: Creative attributes
+      description: >-
+        Return the AI-detected creative attributes inside an asset — storytelling approach, messaging and benefit
+        framing, production style, calls-to-action, on-screen text, logos and brands, objects, scenes, audio cues —
+        with where and when each appears.
+      scope_domain: scoring
+      access: read
+    - name: Asset detail
+      description: >-
+        Full record for a media item: file type, dimensions, aspect ratio, duration, short-lived signed download link,
+        owning brand and workspace, and ad context (campaigns, ad groups, ads, live/paused state, delivery countries,
+        attributed spend).
+      scope_domain: scoring
+      access: read
+    - name: Creative performance
+      description: >-
+        Asset-level performance for a channel over a date range — KPI value, impressions delivered and comparison to the
+        average across the chosen scope, narrowable by campaign, ad, objective, placement or DV360 insertion order /
+        line item type.
+      scope_domain: analytics
+      access: read
+  planned:
+    - name: Creative Drivers
+      description: >-
+        Creative driver analysis — the MCP equivalent of the platform's Element Impact report, returning the creative
+        attributes most correlated with a KPI, positive and negative, drillable to the underlying assets.
+      status: coming-next
+governance:
+  organization_binding: >-
+    The organization is chosen by the user at authorization and stamped into the access token as an organization_id
+    claim (re-stamped on refresh). Tools never accept an organization identifier as a parameter.
+  cross_tenant: Requests for another organization's resource return HTTP 403 (Vidmob states this is verified).
+  token_passthrough: false
+  scope_gated_tool_visibility: true
+  input_validation: Strict schema validation on every tool input; structured parameters only, no free-text queries.
+  response_bounds: Responses are size-bounded with pagination or download-link patterns; each tool execution has a timeout.
+  rate_limiting: rolling-out
+  audit_logging: rolling-out
+  hsts: planned
+  source: https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://mcp.vidmob.com/mcp
+    http_status: 401
+    note: tools/list POST — auth challenge, server confirmed live
+  - fetched: '2026-08-05'
+    url: https://mcp.vidmob.com/.well-known/oauth-protected-resource
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    http_status: 200

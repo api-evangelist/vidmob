@@ -1,0 +1,21 @@
+generated: '2026-08-05'
+method: generated
+source: openapi/ + https://vidmob-api-docs.readme.io/
+note: >-
+  Skills are grounded in operationIds that exist verbatim in the harvested Vidmob OpenAPI documents. No provider
+  published AGENTS.md or skill files were found on vidmob.com, vidmob-api-docs.readme.io or github.com/VidMob.
+skills:
+  - file: vidmob-score-an-external-asset.md
+    name: Score an external creative asset with Vidmob
+    api: openapi/vidmob-creative-scoring-openapi.json
+    operations: [get-organization, get-organization-copy, upload-media-for-scoring, get-media-scoring-status,
+      get-media-score]
+  - file: vidmob-tag-creative-with-aperture.md
+    name: Tag creative assets with Vidmob Creative Aperture
+    api: openapi/vidmob-creative-aperture-openapi.json
+    operations: [create-creative-aperture-job, get-creative-aperture-job-status]
+  - file: vidmob-browse-scorecards-and-guidelines.md
+    name: Browse Vidmob scorecards and scoring guidelines
+    api: openapi/vidmob-creative-scoring-openapi.json
+    operations: [get-organization-copy, get-workspace-scorecards, 'get_v1scoringworkspace{workspaceId}scorecards-1',
+      get-criteria-metadata, get_v1mediaupdated-scores]

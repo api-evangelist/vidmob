@@ -1,23 +1,205 @@
 aid: vidmob
 name: VidMob
-description: 'VidMob is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Vidmob is a creative data platform that connects creative production to media performance for brands and agencies.
+  Its AI analyzes the elements inside an ad creative — on-screen text, logos, objects, scenes, audio cues, storytelling
+  approach, calls-to-action — and joins those detections to in-flight performance across Meta, TikTok, Google Ads,
+  DV360, LinkedIn, Pinterest, Snapchat, Reddit, Amazon Advertising, The Trade Desk and Yahoo DSP. The Vidmob Public API
+  exposes two programmatic capabilities on https://public-api.vidmob.com/v1 — Creative Scoring, which evaluates a media
+  asset against configured brand and channel guidelines and returns a weighted score plus a per-guideline pass/fail
+  breakdown, and Creative Aperture (Creative Tags), which returns structured AI-detected creative attributes for an
+  asset. Both are asynchronous submit-then-poll surfaces bound to an Organization and its Workspaces. Vidmob also runs
+  a hosted remote MCP server at https://mcp.vidmob.com/mcp with OAuth + PKCE, dynamic client registration and
+  scope-gated tool visibility, so agents on Claude, ChatGPT, Gemini Enterprise or a customer's own framework can query
+  creative inventory, scores, attributes and performance directly.
+image: https://vidmob.com/hubfs/VM_FaviconArtboard%201.png
 url: https://raw.githubusercontent.com/api-evangelist/vidmob/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
-specificationVersion: '0.20'
+specificationVersion: '0.21'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
-- Company
-apis: []
+  - creative-intelligence
+  - creative-data
+  - advertising
+  - marketing
+  - media-measurement
+  - video
+  - computer-vision
+  - creative-analytics
+  - adtech
+  - mcp
+  - agent-native
+  - martech
+apis:
+  - name: Vidmob Creative Scoring API
+    description: >-
+      Submit an external media asset for evaluation against the guidelines configured for a Vidmob workspace and read
+      back a weighted score (0.0-1.0) and adherencePercent per advertising channel, plus a per-guideline breakdown of
+      PASS / FAIL / NOT_APPLICABLE / NO_DATA_* results. Also exposes scorecard browsing, scorecard media metadata,
+      criteria (guideline) metadata and a changed-since feed of media with updated scores. Asynchronous: POST the media,
+      poll status every 10-15 minutes, then fetch scores.
+    humanURL: https://vidmob-api-docs.readme.io/reference/getting-started-with-your-api-1
+    baseURL: https://public-api.vidmob.com
+    tags:
+      - creative-intelligence
+      - creative-analytics
+      - advertising
+      - media-measurement
+      - video
+      - computer-vision
+    properties:
+      - type: OpenAPI
+        url: openapi/vidmob-creative-scoring-openapi.json
+      - type: Documentation
+        url: https://vidmob-api-docs.readme.io/docs/media-scoring-api-guide
+      - type: APIReference
+        url: https://vidmob-api-docs.readme.io/docs/api-reference
+      - type: Overlay
+        url: overlays/vidmob-creative-scoring-overlay.yaml
+      - type: ErrorCatalog
+        url: errors/vidmob-problem-types.yml
+      - type: DataModel
+        url: data-model/vidmob-data-model.yml
+      - type: AgentSkill
+        url: skills/_index.yml
+  - name: Vidmob Creative Aperture API (Creative Tags)
+    description: >-
+      Submit one or more creative assets for AI-powered visual annotation and receive structured tags describing what is
+      inside them — on-screen text, logos and brands, objects, scenes, audio cues, people and emotions — with where and
+      when each element appears. Create a tagging job, then poll the job for status and signed download URLs for the
+      resulting JSON.
+    humanURL: https://vidmob-api-docs.readme.io/reference/getting-started-with-your-api
+    baseURL: https://public-api.vidmob.com
+    tags:
+      - creative-intelligence
+      - creative-data
+      - computer-vision
+      - video
+      - advertising
+    properties:
+      - type: OpenAPI
+        url: openapi/vidmob-creative-aperture-openapi.json
+      - type: Documentation
+        url: https://vidmob-api-docs.readme.io/docs/creative-tags-api-guide
+      - type: Overlay
+        url: overlays/vidmob-creative-aperture-overlay.yaml
+  - name: Vidmob Public API (Organization & Workspaces)
+    description: >-
+      Account-hierarchy endpoints used to bootstrap every other Vidmob integration: retrieve the organization the API
+      key is issued against, and enumerate the workspaces that key can reach along with the workspaceId values required
+      by the scoring and criteria endpoints. Requires a valid API key but no specific scope.
+    humanURL: https://vidmob-api-docs.readme.io/reference/organization
+    baseURL: https://public-api.vidmob.com
+    tags:
+      - creative-data
+      - account-management
+      - advertising
+    properties:
+      - type: OpenAPI
+        url: openapi/vidmob-public-api-openapi.json
+      - type: Documentation
+        url: https://vidmob-api-docs.readme.io/reference/organization
+      - type: Overlay
+        url: overlays/vidmob-public-api-overlay.yaml
+  - name: Vidmob MCP Server
+    description: >-
+      Hosted remote MCP server exposing Vidmob creative intelligence to AI agents — organization and ad-account
+      structure, media-library search, creative scoring, AI-detected creative attributes, full asset detail and
+      asset-level performance. Streamable HTTP and SSE transports, OAuth authorization-code + PKCE with dynamic
+      client registration (RFC 7591) and audience-bound tokens carrying an organization_id claim, or a per-organization
+      API key for headless agents. Works with Claude, ChatGPT, Gemini Enterprise, Gemini CLI and custom agents.
+    humanURL: https://help.vidmob.com/en/articles/15465541-setting-up-the-vidmob-mcp-connector
+    baseURL: https://mcp.vidmob.com/mcp
+    tags:
+      - mcp
+      - agent-native
+      - creative-intelligence
+      - creative-data
+      - advertising
+    properties:
+      - type: MCPServer
+        url: mcp/vidmob-mcp.yml
+      - type: ToolCrosswalk
+        url: mcp/vidmob-tool-crosswalk.yml
+      - type: MCP
+        url: https://mcp.vidmob.com/mcp
+      - type: Documentation
+        url: https://help.vidmob.com/en/articles/15555021-what-does-the-vidmob-mcp-do
+      - type: OAuthScopes
+        url: scopes/vidmob-scopes.yml
 maintainers:
-- FN: Kin Lane
-  email: kin@apievangelist.com
-- FN: APIs.json
-  email: info@apis.io
+  - FN: Kin Lane
+    email: kin@apievangelist.com
+  - FN: APIs.json
+    email: info@apis.io
 common:
-- type: Website
-  url: https://forgeglobal.com/vidmob_stock/
+  - type: AgenticAccess
+    url: agentic-access/vidmob-agentic-access.yml
+  - type: Website
+    url: https://vidmob.com/
+  - type: DeveloperPortal
+    url: https://vidmob-api-docs.readme.io/
+  - type: Documentation
+    url: https://vidmob-api-docs.readme.io/docs/introduction
+  - type: APIReference
+    url: https://vidmob-api-docs.readme.io/docs/api-reference
+  - type: GettingStarted
+    url: https://vidmob-api-docs.readme.io/docs/glossary
+  - type: Support
+    url: https://help.vidmob.com/en/
+  - type: Blog
+    url: https://vidblog.vidmob.com/blog
+  - type: GitHubOrganization
+    url: https://github.com/VidMob
+  - type: SignUp
+    url: https://acs.vidmob.com/
+  - type: TermsOfService
+    url: https://vidmob.com/terms
+  - type: PrivacyPolicy
+    url: https://vidmob.com/privacy-policy
+  - type: StatusPage
+    url: https://status.vidmob.com/
+  - type: TrustCenter
+    url: https://trust.vidmob.com/
+  - type: TrustCenter
+    url: security/vidmob-trust-center.yml
+  - type: Authentication
+    url: authentication/vidmob-authentication.yml
+  - type: OAuthScopes
+    url: scopes/vidmob-scopes.yml
+  - type: Conventions
+    url: conventions/vidmob-conventions.yml
+  - type: Idempotency
+    url: conventions/vidmob-conventions.yml
+  - type: ErrorCatalog
+    url: errors/vidmob-problem-types.yml
+  - type: ErrorCatalog
+    name: Vidmob NO_DATA root-cause result codes
+    url: errors/vidmob-no-data-codes.yml
+  - type: ToolCrosswalk
+    url: mcp/vidmob-tool-crosswalk.yml
+  - type: Overlay
+    url: overlays/vidmob-creative-scoring-overlay.yaml
+  - type: Lifecycle
+    url: lifecycle/vidmob-lifecycle.yml
+  - type: Conformance
+    url: conformance/vidmob-conformance.yml
+  - type: WellKnown
+    url: well-known/vidmob-well-known.yml
+  - type: DomainSecurity
+    url: security/vidmob-domain-security.yml
+  - type: DataModel
+    url: data-model/vidmob-data-model.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+  - type: LLMsTxt
+    url: llms/vidmob-llms.txt
+  - type: MCPServer
+    url: mcp/vidmob-mcp.yml
+x-enrichment:
+  date: '2026-08-05'
+  status: enriched
+  artifacts_added: 29
+  pass: local-v1

@@ -1,0 +1,94 @@
+generated: '2026-08-05'
+method: searched
+source: openapi/vidmob-creative-aperture-openapi.json, openapi/vidmob-creative-scoring-openapi.json,
+  openapi/vidmob-public-api-openapi.json
+docs:
+  - https://vidmob-api-docs.readme.io/docs/authentication
+  - https://help.vidmob.com/en/articles/15465541-setting-up-the-vidmob-mcp-connector
+  - https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+summary:
+  types:
+    - apiKey
+    - oauth2
+  api_key_in:
+    - header
+  oauth2_flows:
+    - authorizationCode
+    - refreshToken
+    - jwtBearer
+  surfaces:
+    rest: apiKey (Bearer) only
+    mcp: oauth2 authorization_code + PKCE, or the same per-organization apiKey
+schemes:
+  - name: sec0
+    type: apiKey
+    in: header
+    parameter: Authorization
+    scheme: Bearer
+    surface: rest
+    sources:
+      - openapi/vidmob-creative-aperture-openapi.json
+      - openapi/vidmob-creative-scoring-openapi.json
+      - openapi/vidmob-public-api-openapi.json
+    docs: https://vidmob-api-docs.readme.io/docs/authentication
+    notes: >-
+      The published specs declare the scheme as apiKey in the Authorization header with x-bearer-format bearer, and the
+      docs show the literal header `Authorization: Bearer <api-key>`. Keys are issued per organization by an
+      Organizational Admin at https://acs.vidmob.com/api-key-management and carry capability-domain scopes (see
+      scopes/vidmob-scopes.yml). A key has a name, an expiration and an owning organization, readable via
+      GET /v1/permission.
+  - name: vidmob-mcp-oauth
+    type: oauth2
+    surface: mcp
+    sources:
+      - https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    issuer: https://mcp-auth.vidmob.com
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://acs.vidmob.com/oauth/authorize
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+        pkce: S256
+        scopes: 5
+      - flow: refreshToken
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+      - flow: jwtBearer
+        grant_type: urn:ietf:params:oauth:grant-type:jwt-bearer
+        tokenUrl: https://mcp-auth.vidmob.com/v1/oauth2/token
+    dynamic_client_registration:
+      supported: true
+      spec: RFC 7591
+      endpoint: https://mcp-auth.vidmob.com/v1/oauth2/register
+    client_id_metadata_document_supported: false
+    token_endpoint_auth_methods:
+      - client_secret_basic
+      - client_secret_post
+      - none
+    jwks_uri: https://mcp-auth.vidmob.com/.well-known/jwks.json
+    userinfo_endpoint: https://mcp-auth.vidmob.com/v1/oauth2/userinfo
+    id_token_signing_alg:
+      - RS256
+    notes: >-
+      Users authenticate through Vidmob's own login — password or SSO, including 2FA — which then issues the OAuth
+      tokens. Tokens are audience-bound and carry an organization_id claim chosen at authorization (an org picker when
+      the user belongs to several), re-stamped on refresh. Tools never accept an organization identifier as a
+      parameter. The MCP server validates tokens against the published JWKS and does not forward the partner token to
+      backend services.
+sso:
+  supported: true
+  protocol: SAML 2.0
+  mfa: true
+  docs: https://help.vidmob.com/en/articles/7839806-how-do-i-configure-single-sign-on-sso-for-my-organization
+unscoped_endpoints:
+  note: Require a valid API key but no specific scope.
+  operations:
+    - GET /v1/organization
+    - GET /v1/permission
+    - GET /v1/workspaces
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://vidmob-api-docs.readme.io/docs/authentication.md
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://mcp.vidmob.com/mcp
+    http_status: 401
+    note: WWW-Authenticate Bearer resource_metadata challenge — confirms the RFC 9728 discovery chain

@@ -1,0 +1,74 @@
+generated: '2026-08-05'
+method: searched
+source: https://vidmob-api-docs.readme.io/docs/api-reference
+versioning:
+  scheme: uri-path
+  current: v1
+  base_url: https://public-api.vidmob.com/v1
+  spec_info_version: '2'
+  docs: https://vidmob-api-docs.readme.io/docs/api-reference
+  note: >-
+    All published operations sit under /v1. The three OpenAPI documents Vidmob publishes carry info.version "2" while
+    the path prefix is v1; there is no documented policy tying the two, and no version header or date-pinning
+    mechanism is documented.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    Vidmob publishes no deprecation or sunset policy, and declares no deprecated operations in any spec. The only
+    deprecation signal found anywhere in the developer surface is at the field level: the legacy per-guideline result
+    value NO_DATA is described as "being phased out in favor of the specific codes below", with backwards
+    compatibility explicitly preserved for integrations that match only PASS/FAIL/NO_DATA. That is a field-level
+    migration note, not an API deprecation policy, so no Deprecation pointer is wired in apis.yml.
+  field_level:
+    - field: result
+      value: NO_DATA
+      status: being phased out
+      replacement: NO_DATA_<CODE> specific root-cause codes
+      backwards_compatible: true
+      source: https://vidmob-api-docs.readme.io/docs/no_data-root-cause-codes
+sla:
+  url: null
+  uptime_target: null
+  note: No public SLA or uptime commitment was found.
+status_page:
+  url: https://status.vidmob.com/
+  provider: Atlassian Statuspage
+  subscribe: [email, sms, slack, atom-rss]
+  components:
+    - Platform Access (Login and Authorization)
+    - Scoring Reporting and Processing
+    - Analytics Reporting
+    - Studio
+    - Public API
+    - Media Processing
+    - 'Platform Imports: Amazon Ads'
+    - 'Platform Imports: DV360'
+    - 'Platform Imports: Facebook'
+    - 'Platform Imports: Google Ads'
+    - 'Platform Imports: LinkedIn'
+    - 'Platform Imports: Snapchat'
+    - 'Platform Imports: TikTok'
+  note: The Public API is a separately monitored component, with 90-day uptime history published per component.
+changelog:
+  url: https://vidmob-api-docs.readme.io/changelog
+  status: empty
+  note: >-
+    The ReadMe changelog surface exists and returns 200 but publishes no entries ("No Changelogs"), so no
+    changelog/ artifact and no ChangeLog pointer were written. Individual docs pages carry an updatedAt timestamp
+    (most recently 2026-05-07) — that is the only dated change signal Vidmob publishes.
+  last_docs_update: '2026-05-07'
+deprecated_operations: []
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://status.vidmob.com/
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://vidmob-api-docs.readme.io/changelog
+    http_status: 200
+    note: 200 but empty — renders the "No Changelogs" state
+  - fetched: '2026-08-05'
+    url: https://vidmob-api-docs.readme.io/docs/api-reference.md
+    http_status: 200

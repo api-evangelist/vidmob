@@ -1,0 +1,84 @@
+generated: '2026-08-05'
+method: searched
+source: https://vidmob-api-docs.readme.io/docs/no_data-root-cause-codes
+also: https://vidmob-api-docs.readme.io/docs/field-reference
+kind: result-codes
+note: >-
+  These are NOT HTTP errors. They are per-guideline `result` values returned inside a 200 response from
+  GET /v1/scoring/media/{mediaId}/scores?format=detail, describing why an individual guideline could not be scored.
+  HTTP-level failures are catalogued separately in errors/vidmob-problem-types.yml.
+envelope_field: result
+result_values:
+  - value: PASS
+    meaning: Guideline criteria were met.
+  - value: FAIL
+    meaning: Guideline criteria were not met.
+  - value: NOT_APPLICABLE
+    meaning: Guideline does not apply to the asset's format or creative type.
+  - value: NO_DATA
+    meaning: Legacy catch-all.
+    status: deprecated
+    note: >-
+      Being phased out in favour of the specific NO_DATA_* codes. Existing integrations that match only
+      PASS/FAIL/NO_DATA keep working; matching the specific codes is recommended for better observability.
+codes:
+  - code: NO_DATA_NEW_CRITERIA
+    root_cause: Guideline was introduced after this asset was last scored.
+    action: Trigger a rescore.
+    terminal: false
+  - code: NO_DATA_NOT_APPLICABLE
+    root_cause: Asset format, type or codec not supported by the guideline.
+    action: Verify asset format.
+    terminal: true
+  - code: NO_DATA_MEDIA_PREDATES_MODEL
+    root_cause: Asset was submitted before the AI model was released.
+    action: Cannot be scored retroactively.
+    terminal: true
+  - code: NO_DATA_MEDIA_PREDATES_TAG_API
+    root_cause: Asset predates the tag API.
+    action: Tagging not available for this asset.
+    terminal: true
+  - code: NO_DATA_MISSING_BRAND_IDENTIFIERS
+    root_cause: Workspace is missing brand settings required to evaluate the rule.
+    action: Configure brand identifiers in the platform.
+    terminal: false
+  - code: NO_DATA_MISSING_REQUIRED_TAGS
+    root_cause: Required upstream tags were not available at scoring time.
+    action: Typically transient; trigger a rescore.
+    terminal: false
+  - code: NO_DATA_ERROR_RETRIEVING_TAGS
+    root_cause: Internal error retrieving tags during scoring.
+    action: Retry / trigger a rescore.
+    terminal: false
+  - code: NO_DATA_MEDIA_NOT_TAGGED
+    root_cause: Asset has not been tagged.
+    action: Submit the asset for tagging via Aperture (POST /v1/media/aperture).
+    terminal: false
+  - code: NO_DATA_MEDIA_TAGGING_FAILURE
+    root_cause: Tagging step failed for this asset.
+    action: Re-submit the asset for tagging.
+    terminal: false
+  - code: NO_DATA_MEDIA_SCORED_OUTSIDE_BATCH
+    root_cause: Asset was scored outside its scheduled batch.
+    action: Informational; rescore if up-to-date results are needed.
+    terminal: false
+  - code: NO_DATA_MEDIA_RECOGNITION_FAIL
+    root_cause: Asset failed content recognition.
+    action: Verify asset integrity and format.
+    terminal: true
+  - code: NO_DATA_SCORING_BACKLOG
+    root_cause: Scoring delayed due to high volume.
+    action: Wait and retry.
+    terminal: false
+  - code: NO_DATA_AD_ACCOUNT_DISCONNECTED
+    root_cause: Ad account was disconnected at time of scoring.
+    action: Reconnect in platform.
+    terminal: false
+  - code: NO_DATA_MEDIA_DOWNLOAD_FAILURE
+    root_cause: Media URL was inaccessible or asset corrupted.
+    action: Verify URL and asset.
+    terminal: true
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://vidmob-api-docs.readme.io/docs/no_data-root-cause-codes.md
+    http_status: 200

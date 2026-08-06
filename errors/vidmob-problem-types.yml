@@ -1,0 +1,132 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/vidmob-creative-scoring-openapi.json, openapi/vidmob-creative-aperture-openapi.json,
+  openapi/vidmob-public-api-openapi.json
+docs: https://vidmob-api-docs.readme.io/docs/api-reference
+format: vendor
+rfc9457: false
+envelope:
+  content_type: application/json
+  note: >-
+    Vidmob does not use RFC 9457 application/problem+json. It ships TWO different error envelopes and which one you get
+    depends on where the request fails.
+  shapes:
+    - name: application-error
+      used_by: 400, 404, 409 (and all business-layer failures)
+      shape: |
+        {
+          "status": "ERROR",
+          "traceId": "<string>",
+          "error": {
+            "identifier": "<system>.<exception-class>",
+            "type": "<EXCEPTIONTYPE>",
+            "system": "<originating system>",
+            "message": "<human-readable message>"
+          }
+        }
+      fields:
+        status: Always "ERROR" on this envelope; the success counterpart is "OK".
+        traceId: Opaque correlation id for support. The only tracing identifier Vidmob returns.
+        error.identifier: Dotted identifier, e.g. vidmob.scoring.notfoundexception or vidmob.api-bff.badrequestexception.
+        error.type: Uppercased exception class, e.g. BADREQUESTEXCEPTION, NOTFOUNDEXCEPTION, CONFLICTEXCEPTION.
+        error.system: Originating internal system, e.g. scoring, api-bff.
+        error.message: Human-readable detail; not a stable machine key.
+    - name: gateway-auth-error
+      used_by: 401
+      shape: |
+        {
+          "statusCode": 401,
+          "message": "Request is Unauthorized",
+          "error": "Unauthorized"
+        }
+      note: >-
+        The 401 envelope is a different shape entirely — a flat statusCode/message/error object with no status, no
+        traceId and no error.identifier. Clients must branch on the presence of `error.identifier` versus `statusCode`
+        rather than assuming one envelope.
+problems:
+  - status: 400
+    identifier: vidmob.scoring.badrequestexception
+    type: BADREQUESTEXCEPTION
+    system: scoring
+    title: Bad request
+    remediation: Correct the request parameters or body; the message names the offending field.
+    source_operations:
+      - openapi/vidmob-creative-scoring-openapi.json#get-workspace-scorecards
+      - openapi/vidmob-creative-scoring-openapi.json#get-media-score
+      - openapi/vidmob-creative-scoring-openapi.json#upload-media-for-scoring
+      - openapi/vidmob-creative-scoring-openapi.json#get-media-scoring-status
+      - 'openapi/vidmob-creative-scoring-openapi.json#get_v1scoringworkspace{workspaceId}scorecards-1'
+  - status: 400
+    identifier: vidmob.api-bff.badrequestexception
+    type: BADREQUESTEXCEPTION
+    system: api-bff
+    title: Bad request (gateway validation)
+    remediation: >-
+      Raised by the API backend-for-frontend before the request reaches the scoring/aperture service — e.g.
+      "creatives must contain at least 1 elements" on an empty Creative Tags job.
+    source_operations:
+      - openapi/vidmob-creative-scoring-openapi.json#get-criteria-metadata
+      - openapi/vidmob-creative-aperture-openapi.json#create-creative-aperture-job
+  - status: 401
+    title: Request is Unauthorized
+    envelope: gateway-auth-error
+    remediation: >-
+      Send Authorization Bearer <api-key>. A key that is valid but lacks the operation's scope is also rejected here —
+      check the key's scopes with GET /v1/permission.
+    source_operations:
+      - openapi/vidmob-public-api-openapi.json#get-organization
+      - openapi/vidmob-public-api-openapi.json#get-organization-copy
+      - openapi/vidmob-creative-scoring-openapi.json#get-workspace-scorecards
+      - openapi/vidmob-creative-scoring-openapi.json#get-media-score
+      - openapi/vidmob-creative-scoring-openapi.json#upload-media-for-scoring
+      - openapi/vidmob-creative-scoring-openapi.json#get-criteria-metadata
+      - 'openapi/vidmob-creative-scoring-openapi.json#get_v1scoringworkspace{workspaceId}scorecards-1'
+      - openapi/vidmob-creative-aperture-openapi.json#get-creative-aperture-job-status
+      - openapi/vidmob-creative-aperture-openapi.json#create-creative-aperture-job
+  - status: 404
+    identifier: vidmob.scoring.notfoundexception
+    type: NOTFOUNDEXCEPTION
+    system: scoring
+    title: Media record not found
+    example_message: 'No API media record found for external media ID: <id> with source: <source>'
+    remediation: >-
+      Confirm the uniqueId, or when looking up by your own id also send ?source= and ?version=. A newly submitted asset
+      is addressable by its returned uniqueId immediately.
+    source_operations:
+      - openapi/vidmob-creative-scoring-openapi.json#get-media-score
+      - openapi/vidmob-creative-scoring-openapi.json#get-media-scoring-status
+  - status: 404
+    identifier: example.api.notfoundexception
+    type: NOTFOUNDEXCEPTION
+    title: Creative Tags job not found
+    remediation: Confirm the jobId returned by POST /v1/media/aperture.
+    source_operations:
+      - openapi/vidmob-creative-aperture-openapi.json#get-creative-aperture-job-status
+    note: >-
+      The published example uses the placeholder identifier `example.api.notfoundexception` rather than a real
+      vidmob.* identifier — captured verbatim from the spec, not corrected.
+  - status: 409
+    identifier: vidmob.api-bff.conflictexception
+    type: CONFLICTEXCEPTION
+    system: scoring
+    title: Media already exists
+    example_message: "A media entry with id '<id>' and version '<version>' already exists"
+    semantics: >-
+      NOT a failure. 409 is Vidmob's idempotent-submit signal: the id + version + source natural key already resolves
+      to an ingested asset, and the response carries the existing uniqueId, which the caller can use directly. Treat it
+      as a successful deduplicated submit, not an error to retry.
+    remediation: Read the existing uniqueId out of the response and continue to the status/score step.
+    source_operations:
+      - openapi/vidmob-creative-scoring-openapi.json#upload-media-for-scoring
+    see: conventions/vidmob-conventions.yml
+not_published:
+  - status: 403
+    note: >-
+      Vidmob states cross-organization access returns a clean 403 on the MCP surface, but no 403 response is declared
+      in any published OpenAPI operation.
+  - status: 429
+    note: >-
+      Per-organization throttling is documented in prose but no 429 response, Retry-After header or rate-limit header
+      is declared in any spec.
+  - status: 5xx
+    note: No 5xx response is declared on any operation in any of the three published specs.

@@ -1,0 +1,37 @@
+# vidmob-api-docs Documentation
+
+> Home of the Vidmob API documentation, guides and additional information.
+
+## Guides
+- [Overview](https://vidmob-api-docs.readme.io/docs/introduction.md)
+- [Quick Start](https://vidmob-api-docs.readme.io/docs/glossary.md)
+- [Endpoint Reference](https://vidmob-api-docs.readme.io/docs/api-reference.md)
+- [Field Reference](https://vidmob-api-docs.readme.io/docs/field-reference.md)
+- [NO_DATA Root Cause Codes](https://vidmob-api-docs.readme.io/docs/no_data-root-cause-codes.md)
+- [Channel Identifiers](https://vidmob-api-docs.readme.io/docs/channel-identifiers.md)
+- [Media Scoring API Guide](https://vidmob-api-docs.readme.io/docs/media-scoring-api-guide.md): A step-by-step guide on usage of Scoring API to score media.
+- [Creative Tags API Guide](https://vidmob-api-docs.readme.io/docs/creative-tags-api-guide.md)
+- [Authentication](https://vidmob-api-docs.readme.io/docs/authentication.md)
+- [Score an External Asset](https://vidmob-api-docs.readme.io/docs/use-case-1-score-an-external-asset.md)
+- [Get Per-Guideline Results](https://vidmob-api-docs.readme.io/docs/use-case-2-get-per-guideline-results.md)
+- [Browse Scorecards](https://vidmob-api-docs.readme.io/docs/use-case-3-browse-scorecards.md)
+- [Browse Scoring Guidelines](https://vidmob-api-docs.readme.io/docs/use-case-4-browse-scoring-guidelines.md)
+- [Poll for Score Changes](https://vidmob-api-docs.readme.io/docs/use-case-5-poll-for-score-changes.md)
+- [Tag Creative Assets (Aperture)](https://vidmob-api-docs.readme.io/docs/use-case-6-tag-creative-assets-aperture.md)
+
+## API Reference
+- [Authentication](https://vidmob-api-docs.readme.io/reference/authentication-1.md)
+- [Organization](https://vidmob-api-docs.readme.io/reference/organization.md): APIs to retrieve information for your Organization
+- [Organization](https://vidmob-api-docs.readme.io/reference/get-organization.md)
+- [Workspaces](https://vidmob-api-docs.readme.io/reference/get-organization-copy.md)
+- [Scoring External Assets](https://vidmob-api-docs.readme.io/reference/getting-started-with-your-api-1.md): This page will help you get started with CREATIVE SCORING.
+- [Get Workspace Scorecards](https://vidmob-api-docs.readme.io/reference/get-workspace-scorecards.md): This endpoint gets a list of scorecards for a given workspace. It supports several filtering options through query params.
+- [Get Scorecard Media Metadata](https://vidmob-api-docs.readme.io/reference/get-workspace-scorecards-1.md): Fetches a list of metadata objects for media in a given scorecard. When a date range is provided, it applies only to inflight scorecards and retrieves media with impressions within that range. Dates are otherwise disregarded for preflight scorecards.
+- [Get Media Score](https://vidmob-api-docs.readme.io/reference/get-media-score.md): Provides criteria scores for media if they are available.
+- [Upload Media For Scoring](https://vidmob-api-docs.readme.io/reference/upload-media-for-scoring.md): Lets you upload single media asset for scoring against your criteria.
+- [Get Media Scoring Status](https://vidmob-api-docs.readme.io/reference/get-media-scoring-status.md): Provides a way to check media scoring status.
+- [Get Criteria Metadata](https://vidmob-api-docs.readme.io/reference/get-criteria-metadata.md): This endpoint provides a list of criteria across all workspaces in an organization along with the organization level criteria.
+- [Get Media by Last Scored Date](https://vidmob-api-docs.readme.io/reference/get-media-by-last-scored-date.md)
+- [Creative Tags API](https://vidmob-api-docs.readme.io/reference/getting-started-with-your-api.md): This page will help you get started with Creative Aperture.
+- [Get Creative Tags Job Status](https://vidmob-api-docs.readme.io/reference/get-creative-aperture-job-status.md): This endpoint retrieves the status of a Creative Tags  Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results.
+- [Create Creative Tags Job](https://vidmob-api-docs.readme.io/reference/create-creative-aperture-job.md): This endpoint allows users to create a new Creative Tags job. It accepts a list of creative assets along with client tags and returns a job_id that can be used to track the job’s status.

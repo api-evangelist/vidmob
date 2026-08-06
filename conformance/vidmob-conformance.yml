@@ -1,0 +1,97 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/ + well-known/ + https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+standards:
+  - id: openapi-3.1
+    conforms: true
+    evidence: All three published definitions declare openapi 3.1.0.
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      MCP authorization server publishes authorization_code, refresh_token and urn:ietf:params:oauth:grant-type:jwt-bearer
+      grants at https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server.
+  - id: oauth2-pkce-rfc7636
+    conforms: true
+    evidence: code_challenge_methods_supported is ["S256"].
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: true
+    evidence: /.well-known/oauth-authorization-server returns 200 on mcp.vidmob.com and mcp-auth.vidmob.com.
+  - id: rfc9728-oauth-protected-resource-metadata
+    conforms: true
+    evidence: >-
+      /.well-known/oauth-protected-resource returns 200 and the MCP 401 carries
+      WWW-Authenticate Bearer resource_metadata pointing at it.
+  - id: rfc7591-dynamic-client-registration
+    conforms: true
+    evidence: registration_endpoint https://mcp-auth.vidmob.com/v1/oauth2/register, confirmed in the RFC 8414 document.
+  - id: oidc-discovery
+    conforms: true
+    evidence: /.well-known/openid-configuration returns 200 with issuer, jwks_uri, RS256 id_token signing.
+  - id: rfc7517-jwks
+    conforms: true
+    evidence: https://mcp-auth.vidmob.com/.well-known/jwks.json returns an RSA signing key set.
+  - id: client-id-metadata-document
+    conforms: false
+    evidence: client_id_metadata_document_supported is explicitly false; Vidmob defers CIMD to a later phase.
+  - id: mcp-model-context-protocol
+    conforms: true
+    evidence: >-
+      Hosted remote server at https://mcp.vidmob.com/mcp answering JSON-RPC with a standards-compliant 401 challenge;
+      Streamable HTTP and SSE transports documented.
+  - id: saml2-sso
+    conforms: true
+    evidence: SAML 2.0 SSO configurable per organization (help centre article 7839806).
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors use two vendor envelopes (status/traceId/error.identifier, and a flat statusCode/message/error on 401);
+      no application/problem+json is declared anywhere.
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: >-
+      No security.txt on vidmob.com, public-api.vidmob.com or mcp.vidmob.com. The 200 at
+      help.vidmob.com/.well-known/security.txt is Intercom's file, canonical to app.intercom.com.
+  - id: rfc8594-sunset-header
+    conforms: false
+    evidence: No Sunset or Deprecation header support documented; no deprecation policy published.
+  - id: a2a-agent-card
+    conforms: false
+    evidence: >-
+      /.well-known/agent-card.json and /.well-known/agent.json probed on vidmob.com, public-api.vidmob.com,
+      mcp.vidmob.com and acs.vidmob.com — all 404 except the acs.vidmob.com SPA HTML catch-all, which is not a card.
+  - id: asyncapi
+    conforms: false
+    evidence: >-
+      Not applicable — both APIs are explicitly submit-then-poll. Vidmob documents no webhooks, no callbacks and no
+      streaming/event surface, so there is no event contract to describe.
+  - id: json-api
+    conforms: false
+    evidence: Responses use a vendor status/result envelope, not JSON:API.
+  - id: odata
+    conforms: false
+  - id: scim2
+    conforms: false
+  - id: fhir-r4
+    conforms: false
+  - id: pci-dss
+    conforms: false
+    evidence: Not a payments API; no cardholder data surface.
+compliance_program:
+  trust_center: https://trust.vidmob.com/
+  platform: Vanta
+  certifications_readable: false
+  note: >-
+    Vidmob publishes a Vanta-hosted trust center at its own subdomain, but the certification list renders entirely
+    client-side and no named certification (SOC 2, ISO 27001, HIPAA, FedRAMP, PCI) could be read from the served HTML
+    or from any anonymous Vanta API path. Because no certification could be verified, NO `Compliance` pointer is wired
+    in apis.yml — only `TrustCenter`, which is what was actually observed. See security/vidmob-trust-center.yml.
+x-evidence:
+  - fetched: '2026-08-05'
+    url: https://mcp-auth.vidmob.com/.well-known/oauth-authorization-server
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://mcp.vidmob.com/.well-known/oauth-protected-resource
+    http_status: 200
+  - fetched: '2026-08-05'
+    url: https://vidmob.com/.well-known/security.txt
+    http_status: 404

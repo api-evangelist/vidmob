@@ -1,0 +1,118 @@
+generated: '2026-08-05'
+method: searched
+source: live /.well-known/ probes of every Vidmob host in apis.yml + OpenAPI servers[]
+notes: >-
+  Vidmob publishes a real OAuth discovery surface on the MCP hosts (mcp.vidmob.com and its authorization server
+  mcp-auth.vidmob.com). The REST API host public-api.vidmob.com and the marketing site vidmob.com publish nothing under
+  /.well-known/. acs.vidmob.com is a single-page app that answers 200 with an HTML shell for every /.well-known/ path —
+  those responses are recorded as html-catchall and are NOT treated as discovery documents. help.vidmob.com serves a
+  security.txt, but it is Intercom's own file (Canonical: https://app.intercom.com/.well-known/security.txt), not a
+  Vidmob vulnerability-disclosure policy, so it is recorded here as third-party and does not feed a Security pointer.
+hosts:
+  - host: https://mcp.vidmob.com
+    documents:
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        file: vidmob-oauth-protected-resource.json
+        spec: RFC 9728
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: vidmob-oauth-authorization-server.json
+        spec: RFC 8414
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: vidmob-openid-configuration.json
+        spec: OpenID Connect Discovery 1.0
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+  - host: https://mcp-auth.vidmob.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        file: vidmob-oauth-authorization-server.json
+        spec: RFC 8414
+      - path: /.well-known/openid-configuration
+        status: 200
+        file: vidmob-openid-configuration.json
+        spec: OpenID Connect Discovery 1.0
+      - path: /.well-known/jwks.json
+        status: 200
+        file: vidmob-jwks.json
+        spec: RFC 7517
+  - host: https://public-api.vidmob.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://vidmob.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+  - host: https://acs.vidmob.com
+    documents:
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        result: html-catchall
+        note: SPA shell, not a discovery document — rejected
+      - path: /.well-known/openid-configuration
+        status: 200
+        result: html-catchall
+        note: SPA shell, not a discovery document — rejected
+      - path: /.well-known/security.txt
+        status: 200
+        result: html-catchall
+        note: SPA shell, not RFC 9116 text — rejected
+      - path: /.well-known/agent-card.json
+        status: 200
+        result: html-catchall
+        note: SPA shell, not an A2A AgentCard — rejected
+  - host: https://help.vidmob.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        result: third-party
+        note: >-
+          Intercom's security.txt served by the hosted help center; Canonical is
+          https://app.intercom.com/.well-known/security.txt and Contact is security@intercom.com / bugcrowd.com/intercom.
+          Not a Vidmob disclosure policy.
+      - path: /llms.txt
+        status: 200
+        note: Intercom-generated help-center index (separate from the API docs llms.txt captured in llms/)
+  - host: https://vidmob-api-docs.readme.io
+    documents:
+      - path: /llms.txt
+        status: 200
+        file: ../llms/vidmob-llms.txt
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404

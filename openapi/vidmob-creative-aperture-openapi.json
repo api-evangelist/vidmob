@@ -1,0 +1,623 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "creative-aperture",
+    "version": "2"
+  },
+  "servers": [
+    {
+      "url": "https://public-api.vidmob.com"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "sec0": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "x-bearer-format": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "sec0": []
+    }
+  ],
+  "paths": {
+    "/v1/media/aperture/{jobId}": {
+      "get": {
+        "summary": "Get Creative Tags Job Status",
+        "description": "This endpoint retrieves the status of a Creative Tags  Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results.",
+        "operationId": "get-creative-aperture-job-status",
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "description": "The unique job identifier to retrieve the job status.",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Response (Processing State)": {
+                    "value": "{\n    \"status\": \"OK\",\n    \"result\": {\n      \"job_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"PROCESSING\",\n      \"date_created\": \"2025-02-01T10:30:00Z\",\n      \"message\": \"Job is in progress. Processed 4 out of 12 media.\",\n      \"creativeIdentifiers\": [\n        \"creative_001\", \"creative_002\"\n      ],\n      \"clientTags\": {\n          \"brand\": \"ExampleBrand\",\n          \"market\": \"US\",\n          \"channels\": \"meta, dv360\"\n      }\n    }\n}\n"
+                  },
+                  "Response (Completed State)": {
+                    "value": "{\n    \"status\": \"OK\",\n    \"result\": {\n      \"job_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"COMPLETED\",\n      \"date_created\": \"2025-02-01T10:30:00Z\",\n      \"date_updated\": \"2025-02-01T11:15:45Z\",\n      \"download_url_csv\": \"https://example.com/downloads/report_123.csv\",\n      \"download_url_json\": \"https://example.com/downloads/report_123.json\",\n      \"creativeIdentifiers\": [\n        \"creative_001\", \"creative_002\"\n      ],\n      \"clientTags\": {\n          \"brand\": \"ExampleBrand\",\n          \"market\": \"US\",\n          \"channels\": \"meta, dv360\"\n      }\n    }\n}"
+                  },
+                  "Response (Failed State)": {
+                    "value": "{\n    \"status\": \"OK\",\n    \"result\": {\n      \"job_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"FAILED\",\n      \"date_created\": \"2025-02-01T10:30:00Z\",\n      \"date_updated\": \"2025-02-01T11:15:45Z\",\n      \"errors\": {\n        \"creative_002\": \"Failed to process during validation.\",\n        \"creative_003\": \"Media format not supported.\"\n      },\n      \"creativeIdentifiers\": [\n        \"creative_001\", \"creative_002\", \"creative_003\"\n      ],\n      \"clientTags\": {\n          \"brand\": \"ExampleBrand\",\n          \"market\": \"US\",\n          \"channels\": \"meta, dv360\"\n      }\n    }\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "Response (Processing State)",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "OK"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "job_id": {
+                              "type": "string",
+                              "example": "123e4567-e89b-12d3-a456-426614174000"
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "PROCESSING"
+                            },
+                            "date_created": {
+                              "type": "string",
+                              "example": "2025-02-01T10:30:00Z"
+                            },
+                            "message": {
+                              "type": "string",
+                              "example": "Job is in progress. Processed 4 out of 12 media."
+                            },
+                            "creativeIdentifiers": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "creative_001"
+                              }
+                            },
+                            "clientTags": {
+                              "type": "object",
+                              "properties": {
+                                "brand": {
+                                  "type": "string",
+                                  "example": "ExampleBrand"
+                                },
+                                "market": {
+                                  "type": "string",
+                                  "example": "US"
+                                },
+                                "channels": {
+                                  "type": "string",
+                                  "example": "meta, dv360"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "Response (Completed State)",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "OK"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "job_id": {
+                              "type": "string",
+                              "example": "123e4567-e89b-12d3-a456-426614174000"
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "COMPLETED"
+                            },
+                            "date_created": {
+                              "type": "string",
+                              "example": "2025-02-01T10:30:00Z"
+                            },
+                            "date_updated": {
+                              "type": "string",
+                              "example": "2025-02-01T11:15:45Z"
+                            },
+                            "download_url_csv": {
+                              "type": "string",
+                              "example": "https://example.com/downloads/report_123.csv"
+                            },
+                            "download_url_json": {
+                              "type": "string",
+                              "example": "https://example.com/downloads/report_123.json"
+                            },
+                            "creativeIdentifiers": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "creative_001"
+                              }
+                            },
+                            "clientTags": {
+                              "type": "object",
+                              "properties": {
+                                "brand": {
+                                  "type": "string",
+                                  "example": "ExampleBrand"
+                                },
+                                "market": {
+                                  "type": "string",
+                                  "example": "US"
+                                },
+                                "channels": {
+                                  "type": "string",
+                                  "example": "meta, dv360"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "Response (Failed State)",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "OK"
+                        },
+                        "result": {
+                          "type": "object",
+                          "properties": {
+                            "job_id": {
+                              "type": "string",
+                              "example": "123e4567-e89b-12d3-a456-426614174000"
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "FAILED"
+                            },
+                            "date_created": {
+                              "type": "string",
+                              "example": "2025-02-01T10:30:00Z"
+                            },
+                            "date_updated": {
+                              "type": "string",
+                              "example": "2025-02-01T11:15:45Z"
+                            },
+                            "errors": {
+                              "type": "object",
+                              "properties": {
+                                "creative_002": {
+                                  "type": "string",
+                                  "example": "Failed to process during validation."
+                                },
+                                "creative_003": {
+                                  "type": "string",
+                                  "example": "Media format not supported."
+                                }
+                              }
+                            },
+                            "creativeIdentifiers": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "creative_001"
+                              }
+                            },
+                            "clientTags": {
+                              "type": "object",
+                              "properties": {
+                                "brand": {
+                                  "type": "string",
+                                  "example": "ExampleBrand"
+                                },
+                                "market": {
+                                  "type": "string",
+                                  "example": "US"
+                                },
+                                "channels": {
+                                  "type": "string",
+                                  "example": "meta, dv360"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Unauthorized": {
+                    "value": "{\n  \"statusCode\": 401,\n  \"message\": \"Request is Unauthorized\",\n  \"error\": \"Unauthorized\"\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 401,
+                      "default": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request is Unauthorized"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Response (Job Not Found)": {
+                    "value": "{\n    \"status\": \"ERROR\",\n    \"traceId\": \"242933324125066912\",\n    \"error\": {\n        \"identifier\": \"example.api.notfoundexception\",\n        \"type\": \"NOTFOUNDEXCEPTION\",\n        \"system\": \"CreativeApertureService\",\n        \"message\": \"Job with id 3b925ba0-6ea2-48ca-893b-9d181fe0c5981 not found\"\n    }\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ERROR"
+                    },
+                    "traceId": {
+                      "type": "string",
+                      "example": "242933324125066912"
+                    },
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "identifier": {
+                          "type": "string",
+                          "example": "example.api.notfoundexception"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "NOTFOUNDEXCEPTION"
+                        },
+                        "system": {
+                          "type": "string",
+                          "example": "CreativeApertureService"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Job with id 3b925ba0-6ea2-48ca-893b-9d181fe0c5981 not found"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/v1/media/aperture": {
+      "post": {
+        "summary": "Create Creative Tags Job",
+        "description": "This endpoint allows users to create a new Creative Tags job. It accepts a list of creative assets along with client tags and returns a job_id that can be used to track the job\u2019s status.",
+        "operationId": "create-creative-aperture-job",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "creatives",
+                  "clientTags"
+                ],
+                "properties": {
+                  "creatives": {
+                    "type": "array",
+                    "description": "List of creative assets, each containing an id and a url. Supports up to 200 creatives."
+                  },
+                  "clientTags": {
+                    "type": "string",
+                    "description": "Metadata containing client-related tags such as brand, market, and channels.",
+                    "format": "json"
+                  }
+                }
+              },
+              "examples": {
+                "Example Request Body": {
+                  "value": {
+                    "creatives": [
+                      {
+                        "id": "creative_001",
+                        "url": "https://example.com/assets/image1.png"
+                      },
+                      {
+                        "id": "creative_002",
+                        "url": "https://example.com/assets/image2.png"
+                      }
+                    ],
+                    "clientTags": {
+                      "brand": "ExampleBrand",
+                      "market": "US",
+                      "channels": "meta, dv360"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Response (Successful Job Creation)": {
+                    "value": "{\n    \"status\": \"OK\",\n    \"result\": {\n      \"job_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n      \"status\": \"QUEUED\",\n      \"date_created\": \"2025-02-01T10:30:00Z\",\n      \"creativeIdentifiers\": [\n        \"creative_001\", \"creative_002\"\n      ],\n      \"clientTags\": {\n          \"brand\": \"ExampleBrand\",\n          \"market\": \"US\",\n          \"channels\": \"meta, dv360\"\n      }\n    }\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "job_id": {
+                          "type": "string",
+                          "example": "123e4567-e89b-12d3-a456-426614174000"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "QUEUED"
+                        },
+                        "date_created": {
+                          "type": "string",
+                          "example": "2025-02-01T10:30:00Z"
+                        },
+                        "creativeIdentifiers": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "creative_001"
+                          }
+                        },
+                        "clientTags": {
+                          "type": "object",
+                          "properties": {
+                            "brand": {
+                              "type": "string",
+                              "example": "ExampleBrand"
+                            },
+                            "market": {
+                              "type": "string",
+                              "example": "US"
+                            },
+                            "channels": {
+                              "type": "string",
+                              "example": "meta, dv360"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "creatives must contain at least 1 elements": {
+                    "value": "{\n    \"status\": \"ERROR\",\n    \"traceId\": \"6697071182135860597\",\n    \"error\": {\n        \"identifier\": \"vidmob.api-bff.badrequestexception\",\n        \"type\": \"BADREQUESTEXCEPTION\",\n        \"system\": \"api-bff\",\n        \"message\": [\n            \"creatives must contain at least 1 elements\"\n        ]\n    }\n}"
+                  },
+                  "creatives must contain no more than 200 elements": {
+                    "value": "{\n    \"status\": \"ERROR\",\n    \"traceId\": \"7914867384350912708\",\n    \"error\": {\n        \"identifier\": \"vidmob.api-bff.badrequestexception\",\n        \"type\": \"BADREQUESTEXCEPTION\",\n        \"system\": \"api-bff\",\n        \"message\": [\n            \"creatives must contain no more than 200 elements\"\n        ]\n    }\n}"
+                  },
+                  "clientTags must be an object": {
+                    "value": "{\n    \"status\": \"ERROR\",\n    \"traceId\": \"6617476226808560828\",\n    \"error\": {\n        \"identifier\": \"vidmob.api-bff.badrequestexception\",\n        \"type\": \"BADREQUESTEXCEPTION\",\n        \"system\": \"api-bff\",\n        \"message\": [\n            \"clientTags must be an object\"\n        ]\n    }\n}"
+                  }
+                },
+                "schema": {
+                  "oneOf": [
+                    {
+                      "title": "creatives must contain at least 1 elements",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "traceId": {
+                          "type": "string",
+                          "example": "6697071182135860597"
+                        },
+                        "error": {
+                          "type": "object",
+                          "properties": {
+                            "identifier": {
+                              "type": "string",
+                              "example": "vidmob.api-bff.badrequestexception"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "BADREQUESTEXCEPTION"
+                            },
+                            "system": {
+                              "type": "string",
+                              "example": "api-bff"
+                            },
+                            "message": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "creatives must contain at least 1 elements"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "creatives must contain no more than 200 elements",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "traceId": {
+                          "type": "string",
+                          "example": "7914867384350912708"
+                        },
+                        "error": {
+                          "type": "object",
+                          "properties": {
+                            "identifier": {
+                              "type": "string",
+                              "example": "vidmob.api-bff.badrequestexception"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "BADREQUESTEXCEPTION"
+                            },
+                            "system": {
+                              "type": "string",
+                              "example": "api-bff"
+                            },
+                            "message": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "creatives must contain no more than 200 elements"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "title": "clientTags must be an object",
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "ERROR"
+                        },
+                        "traceId": {
+                          "type": "string",
+                          "example": "6617476226808560828"
+                        },
+                        "error": {
+                          "type": "object",
+                          "properties": {
+                            "identifier": {
+                              "type": "string",
+                              "example": "vidmob.api-bff.badrequestexception"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "BADREQUESTEXCEPTION"
+                            },
+                            "system": {
+                              "type": "string",
+                              "example": "api-bff"
+                            },
+                            "message": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": "clientTags must be an object"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Unauthorized": {
+                    "value": "{\n  \"statusCode\": 401,\n  \"message\": \"Request is Unauthorized\",\n  \"error\": \"Unauthorized\"\n}"
+                  }
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "statusCode": {
+                      "type": "integer",
+                      "example": 401,
+                      "default": 0
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Request is Unauthorized"
+                    },
+                    "error": {
+                      "type": "string",
+                      "example": "Unauthorized"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "x-readme": {
+    "headers": [],
+    "explorer-enabled": true,
+    "proxy-enabled": true
+  },
+  "x-readme-fauxas": true
+}

@@ -1,0 +1,177 @@
+generated: '2026-08-05'
+method: searched
+source: https://vidmob-api-docs.readme.io/docs/api-reference
+docs:
+  - https://vidmob-api-docs.readme.io/docs/introduction
+  - https://vidmob-api-docs.readme.io/docs/glossary
+  - https://vidmob-api-docs.readme.io/docs/media-scoring-api-guide
+  - https://vidmob-api-docs.readme.io/docs/field-reference
+  - https://vidmob-api-docs.readme.io/docs/channel-identifiers
+base_url: https://public-api.vidmob.com/v1
+authentication:
+  style: bearer-api-key
+  header: 'Authorization: Bearer <api-key>'
+  scoped: true
+  see: authentication/vidmob-authentication.yml
+async_model:
+  pattern: submit-then-poll
+  applies_to:
+    - POST /v1/media
+    - POST /v1/media/aperture
+  poll_interval: 10-15 minutes (scoring); scales with job size (aperture)
+  typical_completion: 30-60 minutes for scoring, depending on asset complexity and queue depth
+  synchronous_operations: >-
+    Every other operation — workspace, scorecard, criteria, score and status reads — returns synchronously.
+  guidance: >-
+    Polling more frequently than the recommended interval does not speed up processing and may trigger rate limiting.
+  status_values:
+    media:
+      - value: PROCESSING
+        terminal: false
+        action: continue polling
+      - value: COMPLETE
+        terminal: true
+        action: fetch scores
+      - value: ERROR
+        terminal: false
+        action: retry after a delay
+      - value: UNSUPPORTED
+        terminal: true
+        action: do not retry — format not supported
+      - value: FAILED
+        terminal: true
+        action: do not retry
+    aperture:
+      - QUEUED
+      - COMPLETED
+idempotency:
+  supported: true
+  mechanism: natural-key deduplication
+  key_fields:
+    - id
+    - version
+    - source
+  header: null
+  behaviour: >-
+    Re-submitting the same id + version + source to POST /v1/media does not re-ingest the asset. Vidmob returns the
+    existing uniqueId with an HTTP 409 response, and that uniqueId can be used directly — so a retried submit is safe
+    and non-duplicating. There is no Idempotency-Key request header; the idempotency key is the caller-supplied natural
+    key carried in the request body.
+  retention: indefinite — the uniqueId permanently identifies the asset in Vidmob
+  source: https://vidmob-api-docs.readme.io/docs/media-scoring-api-guide
+pagination:
+  style: offset
+  operations:
+    - operation: get-workspace-scorecards
+      params: []
+      note: Documented as supporting filters and pagination with a maximum perPage of 20.
+    - operation: get-criteria-metadata
+      params: [perPage, offset]
+    - operation: get_v1scoringworkspace{workspaceId}scorecards-1
+      params: [perPage, offSet]
+      note: >-
+        Casing is inconsistent across operations — criteria metadata uses `offset`, scorecard media-metadata uses
+        `offSet`. Callers must match the exact spelling per operation.
+  max_per_page: 20
+field_expansion:
+  supported: true
+  mechanism: format query parameter on GET /v1/scoring/media/{mediaId}/scores
+  values:
+    - value: summary
+      default: true
+      returns: 'per-channel rollup: score, adherencePercent, pass/fail counts'
+    - value: detail
+      returns: summary plus a per-guideline breakdown (name, rule, result, weight)
+    - value: summary,detail
+      returns: both
+  also: >-
+    get-workspace-scorecards exposes a scoreDetail query parameter that controls score depth on the scorecard listing.
+filtering:
+  scorecards: [scoreDetail, sortOrder, sortBy, types, channels, startDate, endDate, markets, creators, statuses, searchText, brands]
+  scores: [channel, source, version, consideration, format]
+  media_status: [source, version]
+  scorecard_media: [startDate, endDate]
+  note: >-
+    Date ranges on scorecard media-metadata apply only to inflight scorecards; dates are disregarded for preflight
+    scorecards.
+identifiers:
+  uniqueId:
+    format: uuid
+    issued_by: Vidmob on POST /v1/media
+    note: Permanent identifier for a media asset. Store it — it is the key for status and score reads.
+  client_id:
+    fields: [id, version, source]
+    note: >-
+      Callers may look a media asset up by their own id instead of the uniqueId by appending ?source=<source> and
+      ?version=<version> to the status and scores operations.
+  jobId:
+    format: uuid
+    issued_by: Vidmob on POST /v1/media/aperture
+  workspaceId:
+    format: integer
+    discovered_via: GET /v1/organization or GET /v1/workspaces
+enumerations:
+  channels:
+    input_case_insensitive: true
+    accepted: [META, FACEBOOK, INSTAGRAM, X, TWITTER, ADWORDS, GOOGLE, DV360, YOUTUBE, TIKTOK, PINTEREST, LINKEDIN,
+      SNAPCHAT, REDDIT, AMAZONADVERTISING, AMAZON, AMAZONADVERTISINGDSP, TRADEDESK, YAHOODSP, ALL_PLATFORMS]
+    canonical_output: [META, X, ADWORDS, DV360, LINKEDIN, TIKTOK, PINTEREST, SNAPCHAT, REDDIT, AMAZONADVERTISING,
+      AMAZONADVERTISINGDSP, TRADEDESK, YAHOODSP, ALL_PLATFORMS]
+    aliases:
+      META: [FACEBOOK, INSTAGRAM]
+      X: [TWITTER]
+      ADWORDS: [GOOGLE]
+      DV360: [YOUTUBE]
+      AMAZONADVERTISING: [AMAZON]
+    note: >-
+      ALL_PLATFORMS identifies criteria recommended for the Vidmob channel. It is NOT an aggregate across the other
+      platforms.
+    source: https://vidmob-api-docs.readme.io/docs/channel-identifiers
+  guideline_result: [PASS, FAIL, NOT_APPLICABLE, NO_DATA, 'NO_DATA_<CODE>']
+  see: errors/vidmob-no-data-codes.yml
+response_envelope:
+  shape: '{ "status": "OK", "result": { ... } }'
+  success_field: status
+  payload_field: result
+  format: application/json
+  note: >-
+    Vidmob wraps successful payloads in a status/result envelope rather than returning the resource at the top level.
+    Errors are not RFC 9457 problem+json — see errors/vidmob-problem-types.yml.
+scoring_semantics:
+  score: weighted aggregate across applicable guidelines, 0.0-1.0
+  adherencePercent: simple pass rate, 0.0-1.0
+  note: Guidelines that cannot be evaluated do not count against the asset.
+versioning:
+  scheme: uri-path
+  current: v1
+  spec_info_version: '2'
+  note: >-
+    Every documented path is under /v1. The three published OpenAPI documents carry info.version "2" while the path
+    prefix is v1 — the spec version and the URI version are not the same number.
+  see: lifecycle/vidmob-lifecycle.yml
+rate_limiting:
+  documented: partial
+  statement: >-
+    "Per-organization throttling is applied to all endpoints; for current rate limits applicable to your account,
+    contact Vidmob support." No numeric limits, no rate-limit response headers and no 429 response are published.
+  mcp: >-
+    Per-organization and per-tool-class limits with rate-limit status surfaced to well-behaved clients and structured
+    back-pressure on limit — Vidmob marks this as rolling out, not yet complete.
+  source: https://vidmob-api-docs.readme.io/docs/authentication
+request_tracing:
+  request_id_header: null
+  note: >-
+    No request-id or correlation header is documented for the REST API. The MCP authorization server returns a
+    request_id field in its discovery documents, but that is not a REST tracing contract.
+media_ingestion:
+  url_requirements: >-
+    The url on POST /v1/media must be a direct, publicly accessible download URL. Presigned S3 URLs and CDN links work
+    reliably; auth-gated or redirect URLs can cause silent failures.
+  download_urls: Aperture results and asset metadata return short-lived signed download URLs; treat them as ephemeral.
+cross_links:
+  errors: errors/vidmob-problem-types.yml
+  result_codes: errors/vidmob-no-data-codes.yml
+  authentication: authentication/vidmob-authentication.yml
+  scopes: scopes/vidmob-scopes.yml
+  lifecycle: lifecycle/vidmob-lifecycle.yml
+  data_model: data-model/vidmob-data-model.yml

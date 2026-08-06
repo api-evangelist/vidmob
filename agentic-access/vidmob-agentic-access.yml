@@ -1,0 +1,145 @@
+generated: '2026-08-05'
+method: generated
+source: openapi/vidmob-creative-aperture-openapi.json, openapi/vidmob-creative-scoring-openapi.json,
+  openapi/vidmob-public-api-openapi.json
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 11
+  by_action_class:
+    connected: 8
+    acting: 3
+  by_consequence:
+    read: 8
+    write: 3
+  human_in_the_loop_required: 0
+operations:
+- path: /v1/media/aperture/{jobId}
+  method: get
+  operationId: get-creative-aperture-job-status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/media/aperture
+  method: post
+  operationId: create-creative-aperture-job
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/scoring/workspace/{workspaceId}/scorecards
+  method: get
+  operationId: get-workspace-scorecards
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/scoring/media/{mediaId}/scores
+  method: get
+  operationId: get-media-score
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/media
+  method: post
+  operationId: upload-media-for-scoring
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/media/{mediaId}/status
+  method: get
+  operationId: get-media-scoring-status
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/scoring/criteria/metadata
+  method: post
+  operationId: get-criteria-metadata
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /v1/scoring/scorecard/{scorecardId}/media-metadata
+  method: get
+  operationId: get_v1scoringworkspace{workspaceId}scorecards-1
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/media/updated-scores
+  method: get
+  operationId: get_v1mediaupdated-scores
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/organization
+  method: get
+  operationId: get-organization
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /v1/workspaces
+  method: get
+  operationId: get-organization-copy
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

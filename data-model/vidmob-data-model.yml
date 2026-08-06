@@ -1,0 +1,158 @@
+generated: '2026-08-05'
+method: derived
+source: openapi/vidmob-public-api-openapi.json, openapi/vidmob-creative-scoring-openapi.json,
+  openapi/vidmob-creative-aperture-openapi.json
+docs:
+  - https://vidmob-api-docs.readme.io/docs/introduction
+  - https://vidmob-api-docs.readme.io/docs/field-reference
+note: >-
+  The three published specs declare NO components.schemas — every request and response body is inline, and the 200
+  responses carry examples rather than named models. The entity graph below is therefore derived from path structure,
+  path/query parameter names, request bodies and the account hierarchy Vidmob documents, not from $ref links.
+  Relationships marked confidence: low are implied by the documentation rather than by a spec reference.
+entities:
+  - name: Organization
+    description: Top-level tenant. An API key is issued at organization level and grants access to all its workspaces.
+    id_field: id
+    operations: [get-organization]
+    path: /v1/organization
+  - name: Workspace
+    description: >-
+      Subdivision of an organization, scoped by brand, region or team. Owns scorecards, guidelines and media, and its
+      workspaceId is the required scoping parameter for most scoring reads.
+    id_field: workspaceId
+    id_format: integer
+    operations: [get-organization-copy, get-workspace-scorecards]
+    path: /v1/workspaces
+  - name: Scorecard
+    description: >-
+      Named collection of guidelines configured for a workspace. Typed as preflight, inflight or ad_account — date
+      filters apply only to inflight scorecards.
+    id_field: scorecardId
+    operations: [get-workspace-scorecards, 'get_v1scoringworkspace{workspaceId}scorecards-1']
+    path: /v1/scoring/workspace/{workspaceId}/scorecards
+  - name: Criteria
+    description: >-
+      Individual scoring guideline (rule) evaluated against an asset, with a weight and a channel. Can be scoped
+      org-wide or workspace-specific, and is returned grouped.
+    operations: [get-criteria-metadata]
+    path: /v1/scoring/criteria/metadata
+  - name: Media
+    description: >-
+      A creative asset registered with Vidmob. Identified permanently by a Vidmob-issued uniqueId (UUID), and
+      addressable by the caller's own id when accompanied by source and version.
+    id_field: uniqueId
+    id_format: uuid
+    alternate_key: [id, version, source]
+    operations: [upload-media-for-scoring, get-media-scoring-status, 'get_v1scoringworkspace{workspaceId}scorecards-1',
+      get_v1mediaupdated-scores]
+    path: /v1/media
+  - name: Score
+    description: >-
+      Per-channel scoring result for one media asset — a weighted score and adherencePercent (both 0.0-1.0) plus
+      pass/fail counts, and in detail format a per-guideline breakdown of result, name, rule and weight.
+    operations: [get-media-score]
+    path: /v1/scoring/media/{mediaId}/scores
+  - name: Channel
+    description: >-
+      Advertising platform a guideline or score applies to. A closed enumeration with input aliases; see
+      conventions/vidmob-conventions.yml.
+    id_format: enum
+  - name: ApertureJob
+    description: >-
+      Creative Tags annotation job over one or more creatives. Returns a jobId, a status, and on completion signed
+      download URLs for the tag JSON.
+    id_field: jobId
+    id_format: uuid
+    operations: [create-creative-aperture-job, get-creative-aperture-job-status]
+    path: /v1/media/aperture
+  - name: Creative
+    description: >-
+      Asset submitted inside an Aperture job, carrying a caller-supplied id, a url, and optional clientTags used to
+      carry the caller's own metadata through the job.
+    id_field: id
+    parent: ApertureJob
+relationships:
+  - from: Organization
+    to: Workspace
+    type: has_many
+    via: workspaceId
+    evidence: GET /v1/workspaces lists the workspaces reachable by the organization-scoped key.
+    confidence: high
+  - from: Workspace
+    to: Scorecard
+    type: has_many
+    via: workspaceId
+    evidence: path /v1/scoring/workspace/{workspaceId}/scorecards
+    confidence: high
+  - from: Scorecard
+    to: Media
+    type: has_many
+    via: scorecardId
+    evidence: path /v1/scoring/scorecard/{scorecardId}/media-metadata
+    confidence: high
+  - from: Scorecard
+    to: Criteria
+    type: has_many
+    via: criteria membership
+    evidence: 'Docs: a scorecard is a named collection of guidelines configured per workspace.'
+    confidence: medium
+  - from: Workspace
+    to: Criteria
+    type: has_many
+    via: workspaces filter on POST /v1/scoring/criteria/metadata
+    evidence: The criteria metadata request body filters by workspaces[]; org-level criteria are returned alongside.
+    confidence: high
+  - from: Organization
+    to: Criteria
+    type: has_many
+    via: organization-level criteria
+    evidence: >-
+      "a list of criteria across all workspaces in an organization along with the organization level criteria" —
+      get-criteria-metadata summary.
+    confidence: high
+  - from: Media
+    to: Score
+    type: has_many
+    via: mediaId
+    evidence: path /v1/scoring/media/{mediaId}/scores — one score object per channel.
+    confidence: high
+  - from: Media
+    to: Workspace
+    type: belongs_to
+    via: workspaceId
+    evidence: workspaceId is an optional field on POST /v1/media that makes the asset visible in that workspace's UI.
+    confidence: high
+  - from: Score
+    to: Channel
+    type: belongs_to
+    via: channel
+    evidence: channel query parameter on get-media-score; canonical channel identifiers in the response.
+    confidence: high
+  - from: Criteria
+    to: Channel
+    type: belongs_to
+    via: channel
+    evidence: channels[] filter on criteria metadata; channel field emitted in criteria metadata.
+    confidence: high
+  - from: ApertureJob
+    to: Creative
+    type: has_many
+    via: creatives[]
+    evidence: POST /v1/media/aperture accepts a creatives[] array; the array must contain at least 1 element.
+    confidence: high
+  - from: Creative
+    to: Media
+    type: has_one
+    via: id
+    evidence: >-
+      An asset tagged through Aperture and an asset scored through /v1/media are the same underlying creative — the
+      NO_DATA_MEDIA_NOT_TAGGED scoring code instructs the caller to submit the asset for tagging via Aperture — but
+      the two APIs do not share a declared identifier in the specs.
+    confidence: low
+identifier_conventions:
+  uuid: [uniqueId, jobId]
+  integer: [workspaceId]
+  caller_supplied: [id, version, source, clientTags]
+  note: No id prefixes are used; Vidmob identifiers are bare UUIDs or integers.
+render: null

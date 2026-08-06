@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Vidmob Creative Aperture API
+  version: 1.0.0
+extends: openapi/vidmob-creative-aperture-openapi.json
+x-generated: '2026-08-05'
+x-method: generated
+x-source: >-
+  Enhancements derived from the Vidmob developer documentation
+  (https://vidmob-api-docs.readme.io/docs/creative-tags-api-guide) and the artifacts in this repo.
+actions:
+  - target: $.info
+    update:
+      description: >-
+        Submit creative assets for AI-powered visual annotation (Creative Tags) and receive structured tags describing
+        what is inside them — on-screen text, logos and brands, objects, scenes, audio cues, people and emotions — with
+        where and when each element appears. Create a job, then poll it for status and signed download URLs.
+      contact:
+        name: Vidmob Support
+        email: support@vidmob.com
+        url: https://help.vidmob.com/en/
+      x-apievangelist-slug: vidmob
+      x-apievangelist-conventions: conventions/vidmob-conventions.yml
+      x-apievangelist-errors: errors/vidmob-problem-types.yml
+  - target: $.servers
+    update:
+      - url: https://public-api.vidmob.com
+        description: Production
+  - target: $.components.securitySchemes.sec0
+    update:
+      description: >-
+        Organization-scoped API key sent as `Authorization: Bearer <api-key>`. POST /v1/media/aperture requires the
+        aperture:read_write scope; GET /v1/media/aperture/{jobId} requires aperture:read.
+  - target: $.paths['/v1/media/aperture'].post
+    update:
+      x-async: true
+      x-poll-operation: get-creative-aperture-job-status
+      x-poll-interval: scales with job size
+  - target: $.paths['/v1/media/aperture/{jobId}'].get
+    update:
+      x-download-urls-ephemeral: true
+      x-note: Results are returned inline with the status response once the job is complete; no separate fetch step.

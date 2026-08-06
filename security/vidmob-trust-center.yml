@@ -1,0 +1,39 @@
+generated: '2026-08-05'
+method: probed
+probe: true
+url: https://trust.vidmob.com/
+platform: Vanta
+title: Vidmob Trust Center
+slug_id: fji5cwrwf92zqikpc6ob2u
+certifications: []
+certifications_readable: false
+detail: >-
+  trust.vidmob.com resolves and returns HTTP 200 with a canonical link to https://trust.vidmob.com, the page title
+  "Vidmob Trust Center", and the Vanta trust-report bundle
+  (https://assets.vanta.com/static/index-trust-report.*.js). The trust center is therefore genuinely published on
+  Vidmob's own subdomain. Its CONTENT — the certification list, controls and document requests — is rendered entirely
+  client-side from an authenticated Vanta API (api.vanta.com trust-report paths all return 401 anonymously), so no
+  named certification could be verified. Nothing is asserted here that was not observed: certifications is
+  deliberately empty rather than populated from marketing copy. Consequently no `Compliance` pointer is wired in
+  apis.yml — a trust center that exists is not the same as a certification that was verified.
+  0-working/probe-security-programs.py reports trust=none for the same reason: its keyword check reads the served
+  HTML, which carries no compliance keywords.
+related:
+  mcp_security_overview: https://help.vidmob.com/en/articles/15461399-vidmob-mcp-security-compliance-overview
+  note: >-
+    Vidmob does publish a detailed, plainly-written security and access-control overview for its MCP integration aimed
+    at vendor security reviews — covering authentication, tenancy isolation, input validation, rate limiting, audit
+    logging and transport security, with each control tagged implemented / rolling out / planned. It names no
+    third-party certification.
+evidence:
+  - source: https://trust.vidmob.com/
+    http_status: 200
+    signals: [canonical trust.vidmob.com, 'title: Vidmob Trust Center', vanta trust-report bundle]
+  - source: https://api.vanta.com/v1/trust-report/fji5cwrwf92zqikpc6ob2u
+    http_status: 401
+    signals: [anonymous read of the trust report is gated]
+x-evidence:
+  fetched: '2026-08-05'
+  url: https://trust.vidmob.com/
+  http_status: 200
+  content_type: text/html
