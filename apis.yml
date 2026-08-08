@@ -123,7 +123,7 @@ apis:
         url: mcp/vidmob-mcp.yml
       - type: ToolCrosswalk
         url: mcp/vidmob-tool-crosswalk.yml
-      - type: MCP
+      - type: MCPServer
         url: https://mcp.vidmob.com/mcp
       - type: Documentation
         url: https://help.vidmob.com/en/articles/15555021-what-does-the-vidmob-mcp-do
