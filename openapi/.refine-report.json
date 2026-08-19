@@ -1,0 +1,26 @@
+{
+  "provider": "vidmob",
+  "sources": [
+    "vidmob-media-api-openapi.yml",
+    "vidmob-organization-api-openapi.yml",
+    "vidmob-scoring-api-openapi.yml",
+    "vidmob-workspaces-api-openapi.yml"
+  ],
+  "outputs": [
+    "vidmob-media-api-openapi.yml",
+    "vidmob-organization-api-openapi.yml",
+    "vidmob-scoring-api-openapi.yml",
+    "vidmob-workspaces-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "vidmob-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-organization-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-scoring-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-workspaces-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": []
+}

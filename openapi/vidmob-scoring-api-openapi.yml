@@ -1,0 +1,645 @@
+openapi: 3.2.0
+info:
+  title: creative Scoring API
+  version: '2'
+servers:
+- url: https://public-api.vidmob.com
+security:
+- sec0: []
+tags:
+- name: Scoring
+paths:
+  /v1/scoring/workspace/{workspaceId}/scorecards:
+    get:
+      summary: Get Workspace Scorecards
+      description: This endpoint gets a list of scorecards for a given workspace. It supports several filtering options through query params.
+      operationId: get-workspace-scorecards
+      parameters:
+      - name: workspaceId
+        in: path
+        description: The ID of the workspace you want to query scorecards for
+        schema:
+          type: integer
+          format: int32
+        required: true
+      - name: scoreDetail
+        in: query
+        description: Include score details in response
+        schema:
+          type: boolean
+          default: false
+      - name: sortOrder
+        in: query
+        description: Tells the API how to sort the output
+        schema:
+          type: string
+          default: DESC
+      - name: sortBy
+        in: query
+        description: Specfies the property to sort on
+        schema:
+          type: string
+      - name: types
+        in: query
+        description: Scorecard type
+        required: true
+        schema:
+          type: string
+          enum:
+          - AD_ACCOUNT
+          - IN_FLIGHT
+          - PRE_FLIGHT
+      - name: channels
+        in: query
+        description: Comma separated list of channels
+        schema:
+          type: string
+      - name: startDate
+        in: query
+        description: Filter scorecards that have a start date greater than this date
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: endDate
+        in: query
+        description: Filter scorecards that have an end date less than this date
+        required: true
+        schema:
+          type: string
+          format: date
+      - name: markets
+        in: query
+        description: Comma separated list of markets
+        schema:
+          type: string
+      - name: creators
+        in: query
+        description: Comma separated list of user ids that created the scorecards
+        schema:
+          type: string
+      - name: statuses
+        in: query
+        description: Comma separated list of scorecared statuses
+        schema:
+          type: string
+      - name: searchText
+        in: query
+        description: Search text
+        schema:
+          type: string
+      - name: brands
+        in: query
+        description: Comma separated list of brands
+        schema:
+          type: string
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"OK\",\n  \"pagination\": {\n    \"offset\": 0,\n    \"perPage\": 1,\n    \"nextOffset\": 1,\n    \"totalSize\": 1\n  },\n  \"result\": [\n    {\n      \"id\": 12345,\n      \"name\": \"example-scorecard-name\",\n      \"batchType\": \"IN_FLIGHT\",\n      \"status\": \"COMPLETE\",\n      \"criteriaSetId\": 789,\n      \"partnerId\": 345,\n      \"platforms\": [\"TIKTOK\"],\n      \"partnerAssetFolderId\": 234,\n      \"reasonOutdated\": \"Critera Change\",\n      \"isOutdated\": true,\n      \"dateCreated\": \"2023-10-05T08:00:00Z\",\n      \"lastUpdated\": \"2023-10-05T08:00:00Z\",\n      \"startDate\": \"2023-09-01T00:00:00Z\",\n      \"endDate\": \"2023-09-30T23:59:59Z\",\n      \"score\": 88,\n      \"isInternal\": false,\n      \"baseReportId\": 123,\n      \"totalMediaCount\" 5,\n      \"markets\": [\n        {\n          \"isoCode\": \"usa\",\n          \"name\": \"United States\"\n        }\n      ],\n      \"brands\": [\n        {\n          \"id\": \"example-id\",\n          \"name\": \"example brand name\",\n        }\n      ],\n      \"person\": {\n        \"id\": 123,\n        \"firstName\": \"Example Name\",\n        \"lastName\": \"Last Name\",\n        \"email\": \"abc@example.com\"\n      },\n      \"platformAdAccount\": {\n        \"id\": 123,\n        \"platform\": \"TIKTOK\",\n        \"platformAccountId\": \"example-account-id\",\n        \"platformAccountName\": \"example account name\"\n      },\n      \"scoreDetail\": {\n        \"scoreData\": {\n          \"adherencePercent\": 50,\n  \t\t\t\t\"passCount\": 4,\n  \t\t\t\t\"failCount\": 4,\n  \t\t\t\t\"applicableCount\": 8,\n  \t\t\t\t\"notApplicableCount\": 2,\n  \t\t\t\t\"notAvailableCount\": 1\n        }\n        \"channels\": [\n          {\n            \"channel\": \"TIKTOK\",\n            \"scoreData\": {\n              \"adherencePercent\": 75,\n              \"passCount\": 15,\n              \"failCount\": 5,\n              \"applicableCount\": 20,\n              \"notApplicableCount\": 0,\n              \"notAvailableCount\": 0\n            }\n            \"criteria\": [\n              {\n                \"criteriaSummary\": {\n          \t\t\t\t\"identifier\": \"MAX_WORDS_PER_FRAME\",\n  \t\t\t\t\t\t\t\t\"parameters\": {\n                  \t\"maxWordsPerFrame\": 10\n          \t\t\t\t}\n          \t\t\t},\n                \"scoreData\": {\n                  \"adherencePercent\": 90,\n                  \"passCount\": 4,\n                  \"failCount\": 1,\n                  \"applicableCount\": 5,\n                  \"notApplicableCount\": 0,\n                  \"notAvailableCount\": 0\n                }\n              }\n            ]\n          }\n        ]\n      }\n    }\n  ]\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"ERROR\",\n  \"traceId\": \"example-trace-id\",\n  \"error\": {\n    \"identifier\": \"vidmob.scoring.badrequestexception\",\n    \"type\": \"BADREQUESTEXCEPTION\",\n    \"system\": \"scoring\",\n    \"message\": \"Example message\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ERROR
+                  traceId:
+                    type: string
+                    example: example-trace-id
+                  error:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: vidmob.scoring.badrequestexception
+                      type:
+                        type: string
+                        example: BADREQUESTEXCEPTION
+                      system:
+                        type: string
+                        example: scoring
+                      message:
+                        type: string
+                        example: Example message
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"statusCode\": 401,\n  \"message\": \"Request is Unauthorized\",\n  \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+      deprecated: false
+      tags:
+      - Scoring
+  /v1/scoring/media/{mediaId}/scores:
+    get:
+      summary: Get Media Score
+      description: Provides criteria scores for media if they are available.
+      operationId: get-media-score
+      parameters:
+      - name: mediaId
+        in: path
+        description: ID that identifies the media
+        schema:
+          type: string
+        required: true
+      - name: channel
+        in: query
+        description: Comma separated list of platforms for which to get the media score
+        schema:
+          type: string
+      - name: source
+        in: query
+        description: Specifies the media source
+        schema:
+          type: string
+      - name: version
+        in: query
+        description: Specifies the media version
+        schema:
+          type: string
+      - name: consideration
+        in: query
+        description: Specifies criteria consideration (MANDATORY,OPTIONAL or both)
+        schema:
+          type: string
+          enum:
+          - MANDATORY
+          - OPTIONAL
+          default: MANDATORY,OPTIONAL
+      - name: format
+        in: query
+        description: Specifies the resonse format
+        schema:
+          type: string
+          enum:
+          - summary
+          - detail
+          default: summary
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"OK\",\n  \"result\": {\n    \"media\": {\n      \"uniqueId\": \"example-media-unique-id\",\n  \t\t\"id\": \"example-media-external-id\",\n      \"version\": \"example-version\",\n      \"name: \"example-media-name\",\n      \"dateUploaded\": \"2023-09-01T00:00:00Z\",\n      \"type\": \"example-media-type\"\n    },\n    \"summary\": {\n      \"TIKTOK\": {\n        \"adherencePercent\": 0.75,\n        \"passCount\": 3,\n        \"failCount\": 1,\n        \"applicableCount\": 4,\n        \"notApplicableCount\": 1,\n        \"notAvailableCount\": 3\n      },\n      \"SNAPCHAT\": {\n        \"adherencePercent\": 0.5,\n        \"passCount\": 2,\n        \"failCount\": 2,\n        \"applicableCount\": 4,\n        \"notApplicableCount\": 0,\n        \"notAvailableCount\": 0\n      }\n    },\n    \"detail\": [\n            {\n                \"name\": \"Motion Early (Video only)\",\n                \"rule\": \"Motion is detected in the first 3 seconds of video\",\n                \"channelIdentifier\": \"TIKTOK\",\n                \"result\": \"PASS\",\n                \"weight\": 1\n            },\n            {\n                \"name\": \"Video Length Within Range (Video only)\",\n                \"rule\": \"Video length is within 12 and 19 seconds\",\n                \"channelIdentifier\": \"TIKTOK\",\n                \"result\": \"FAIL\",\n                \"weight\": 1\n            },\n            {\n                \"name\": \"Brand Name or Logo Early\",\n                \"rule\": \"Confirms if, based on this account’s settings, the brand name or logo is shown in the first 2 seconds.\",\n                \"channelIdentifier\": \"TIKTOK\",\n                \"result\": \"PASS\",\n                \"weight\": 1\n            },\n            {\n                \"name\": \"Call to Action Present\",\n                \"rule\": \"Indicates if a written call to action is included.\",\n                \"channelIdentifier\": \"TIKTOK\",\n                \"result\": \"PASS\",\n                \"weight\": 0\n            },\n            {\n                \"name\": \"Video Length Within Range (Video only)\",\n                \"rule\": \"Video length is within 12 and 19 seconds\",\n                \"channelIdentifier\": \"TIKTOK\",\n                \"result\": \"FAIL\",\n                \"weight\": 0\n            },\n            {\n                \"name\": \"Brand Name or Logo Early\",\n                \"rule\": \"Confirms if, based on this account’s settings, the brand name or logo is shown in the first 2 seconds.\",\n                \"channelIdentifier\": \"SNAPCHAT\",\n                \"result\": \"FAIL\",\n                \"weight\": 0\n            },\n            {\n                \"name\": \"Call to Action Present\",\n                \"rule\": \"Indicates if a written call to action is included.\",\n                \"channelIdentifier\": \"SNAPCHAT\",\n                \"result\": \"PASS\",\n                \"weight\": 1\n            },\n            {\n                \"name\": \"Motion Early (Video only)\",\n                \"rule\": \"Motion is detected in the first 1 seconds of video\",\n                \"channelIdentifier\": \"SNAPCHAT\",\n                \"result\": \"PASS\",\n                \"weight\": 1\n            }\n      ]\n  }\n}"
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"ERROR\",\n  \"traceId\": \"example-trace-id\",\n  \"error\": {\n    \"identifier\": \"vidmob.scoring.badrequestexception\",\n    \"type\": \"BADREQUESTEXCEPTION\",\n    \"system\": \"scoring\",\n    \"message\": \"Example message\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ERROR
+                  traceId:
+                    type: string
+                    example: example-trace-id
+                  error:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: vidmob.scoring.badrequestexception
+                      type:
+                        type: string
+                        example: BADREQUESTEXCEPTION
+                      system:
+                        type: string
+                        example: scoring
+                      message:
+                        type: string
+                        example: Example message
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"statusCode\": 401,\n  \"message\": \"Request is Unauthorized\",\n  \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+        '404':
+          description: '404'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"ERROR\",\n  \"traceId\": \"example-trace-id\",\n  \"error\": {\n    \"identifier\": \"vidmob.scoring.notfoundexception\",\n    \"type\": \"NOTFOUNDEXCEPTION\",\n    \"system\": \"scoring\",\n    \"message\": \"No API media record found for external media ID: example-media-id with source: example-source\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ERROR
+                  traceId:
+                    type: string
+                    example: example-trace-id
+                  error:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: vidmob.scoring.notfoundexception
+                      type:
+                        type: string
+                        example: NOTFOUNDEXCEPTION
+                      system:
+                        type: string
+                        example: scoring
+                      message:
+                        type: string
+                        example: 'No API media record found for external media ID: example-media-id with source: example-source'
+      deprecated: false
+      tags:
+      - Scoring
+  /v1/scoring/criteria/metadata:
+    post:
+      summary: Get Criteria Metadata
+      description: This endpoint provides a list of criteria across all workspaces in an organization along with the organization level criteria.
+      operationId: get-criteria-metadata
+      parameters:
+      - name: perPage
+        in: query
+        description: Pagination parameter to set page size
+        schema:
+          type: integer
+          format: int32
+          default: 10
+      - name: offset
+        in: query
+        description: Pagination parameter to specify offset from zero.
+        schema:
+          type: integer
+          format: int32
+          default: 0
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspaces:
+                  type: array
+                  description: Limit response to list of workspace IDs provided. Mutually exclusive with `globalOnly` parameter.
+                  items:
+                    type: integer
+                    format: int32
+                channels:
+                  type: array
+                  description: Limit response to include criteria from list of channels provided.
+                  items:
+                    type: string
+                consideration:
+                  type: string
+                  description: Filter criteria by consideration. Accepted values are `MANDATORY` or `OPTIONAL`
+                  enum:
+                  - MANDATORY
+                  - OPTIONAL
+                criteriaGroups:
+                  type: array
+                  description: Filter criteria to those belonging to provided list of criteria group UUIDs.
+                  items:
+                    type: string
+                globalOnly:
+                  type: boolean
+                  description: Limit response to include only organization level criteria. Mutually exclusive with `workspaces` parameter.
+                  default: false
+      responses:
+        '201':
+          description: '201'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"status\": \"OK\",\n    \"result\": [\n        {\n            \"id\": 12345,\n            \"name\": \"example criteria name 1\",\n            \"rule\": \"example criteria rule 1\",\n            \"bestPractice\": true,\n            \"category\": \"Formatting\",\n            \"channel\": \"META\",\n            \"consideration\": \"MANDATORY\",\n            \"criteriaGroups\": [\n                {\n                    \"id\": \"9af107f0-5921-4253-80b9-298cc0b68d64\",\n                    \"name\": \"Example Group Name\"\n                }\n            ],\n            \"creativeTypes\": [\n                \"VIDEO\",\n                \"ANIMATED_IMAGE\"\n            ],\n            \"dateCreated\": \"2024-06-07T06:18:20.000Z\",\n            \"organizationCriteria\": true,\n            \"person\": {\n                \"email\": \"abc@xyz.com\",\n                \"firstName\": \"Criteria\",\n                \"lastName\": \"Cait\"\n            },\n            \"workspace\": null\n        },\n        {\n            \"id\": 56789,\n            \"name\": \"example criteria name 2\",\n            \"rule\": \"example criteria rule 2\",\n            \"bestPractice\": false,\n            \"category\": \"Product Visibility\",\n            \"channel\": \"META\",\n            \"consideration\": \"MANDATORY\",\n            \"criteriaGroups\": [\n                {\n                    \"id\": \"9af107f0-5921-4253-80b9-298cc0b68d64\",\n                    \"name\": \"Example Group Name\"\n                }\n            ],\n            \"creativeTypes\": [\n                \"IMAGE\",\n                \"VIDEO\",\n                \"ANIMATED_IMAGE\"\n            ],\n            \"dateCreated\": \"2024-06-07T06:24:39.000Z\",\n            \"organizationCriteria\": true,\n            \"person\": {\n                \"email\": \"abc@xyz.com\",\n                \"firstName\": \"Criteria\",\n                \"lastName\": \"Cait\"\n            },\n            \"workspace\": null\n        },\n        {\n            \"id\": 13579,\n            \"name\": \"example criteria name 3\",\n            \"rule\": \"example criteria rule 3\",\n            \"bestPractice\": false,\n            \"category\": \"Regulatory & Compliance\",\n            \"channel\": \"DV360\",\n            \"consideration\": \"OPTIONAL\",\n            \"criteriaGroups\": [],\n            \"creativeTypes\": [\n                \"VIDEO\"\n            ],\n            \"dateCreated\": \"2024-07-16T23:07:40.000Z\",\n            \"organizationCriteria\": false,\n            \"person\": {\n                \"email\": \"abc@xyz.com\",\n                \"firstName\": \"Criteria\",\n                \"lastName\": \"Cait\"\n            },\n            \"workspace\": {\n              \"id\": 73,\n              \"name\": \"Example Workspace Name\"\n            }\n        }\n    ],\n    \"pagination\": {\n        \"offset\": 0,\n        \"perPage\": 3,\n        \"nextOffset\": 3,\n        \"totalSize\": 7\n    }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        name:
+                          type: string
+                          example: example criteria name 1
+                        rule:
+                          type: string
+                          example: example criteria rule 1
+                        bestPractice:
+                          type: boolean
+                          example: true
+                          default: true
+                        category:
+                          type: string
+                          example: Formatting
+                        channel:
+                          type: string
+                          example: META
+                        consideration:
+                          type: string
+                          example: MANDATORY
+                        criteriaGroups:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: string
+                                example: 9af107f0-5921-4253-80b9-298cc0b68d64
+                              name:
+                                type: string
+                                example: Example Group Name
+                        creativeTypes:
+                          type: array
+                          items:
+                            type: string
+                            example: VIDEO
+                        dateCreated:
+                          type: string
+                          example: '2024-06-07T06:18:20.000Z'
+                        organizationCriteria:
+                          type: boolean
+                          example: true
+                          default: true
+                        person:
+                          type: object
+                          properties:
+                            email:
+                              type: string
+                              example: abc@xyz.com
+                            firstName:
+                              type: string
+                              example: Criteria
+                            lastName:
+                              type: string
+                              example: Cait
+                        workspace: {}
+                  pagination:
+                    type: object
+                    properties:
+                      offset:
+                        type: integer
+                        example: 0
+                        default: 0
+                      perPage:
+                        type: integer
+                        example: 3
+                        default: 0
+                      nextOffset:
+                        type: integer
+                        example: 3
+                        default: 0
+                      totalSize:
+                        type: integer
+                        example: 7
+                        default: 0
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"status\": \"ERROR\",\n    \"traceId\": \"1234567890\",\n    \"error\": {\n        \"identifier\": \"vidmob.api-bff.badrequestexception\",\n        \"type\": \"BADREQUESTEXCEPTION\",\n        \"system\": \"scoring\",\n        \"message\": \"example bad request message\"\n    }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ERROR
+                  traceId:
+                    type: string
+                    example: '1234567890'
+                  error:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: vidmob.api-bff.badrequestexception
+                      type:
+                        type: string
+                        example: BADREQUESTEXCEPTION
+                      system:
+                        type: string
+                        example: scoring
+                      message:
+                        type: string
+                        example: example bad request message
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"statusCode\": 401,\n    \"message\": \"Request is Unauthorized\",\n    \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+      deprecated: false
+      tags:
+      - Scoring
+  /v1/scoring/scorecard/{scorecardId}/media-metadata:
+    get:
+      summary: Get Scorecard Media Metadata
+      description: Fetches a list of metadata objects for media in a given scorecard. When a date range is provided, it applies only to inflight scorecards and retrieves media with impressions within that range. Dates are otherwise disregarded for preflight scorecards.
+      operationId: get_v1scoringworkspace{workspaceId}scorecards-1
+      parameters:
+      - in: path
+        name: scorecardId
+        schema:
+          type: string
+          default: ''
+        required: true
+        description: ID of the scorecard to fetch media metadata for.
+      - in: query
+        name: startDate
+        schema:
+          type: string
+          format: date
+        required: false
+        description: Impression start for inflight media—disregarded for preflight. Defaults to 3 months back.
+      - in: query
+        name: endDate
+        schema:
+          type: string
+          format: date
+        description: 'Impression end date—similarly disregarded for preflight. Defaults to current day. '
+        required: false
+      - in: query
+        name: perPage
+        schema:
+          type: integer
+          default: '10'
+          format: int32
+        description: Pagination parameter to set page size.
+      - in: query
+        name: offSet
+        schema:
+          type: integer
+          format: int32
+        description: Pagination parameter to specify offset from 0.
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value:
+                    status: OK
+                    pagination:
+                      offset: 0
+                      perPage: 1
+                      nextOffset: 1
+                      totalSize: 1
+                    result:
+                    - id: 999999
+                      adAccount:
+                        id: fb_example_001
+                        name: FB - TEST - EXAMPLE - ACME CO
+                      campaigns:
+                      - id: cmp_fb_example_001
+                        name: EXAMPLE_CAMPAIGN_2025_Q4_Awareness
+                      ads:
+                      - id: ad_fb_example_001
+                        name: EXAMPLE_AD_20251028_FB_VIDEO_30s
+                      impressions: 12345
+                      platformMediaId: pm_fb_example_001
+                      platform: FACEBOOK
+                      assetDuration: 30
+                      mediaType: VIDEO
+                      brands:
+                      - id: 00000000-0000-0000-0000-000000000000
+                        name: Acme (Example)
+                      campaignObjectives: []
+                      adGroups:
+                      - id: ag_fb_example_001
+                        name: EXAMPLE_ADGROUP_A
+                      markets:
+                      - id: usa
+        '400':
+          description: '400'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"status\": \"ERROR\",\n  \"traceId\": \"example-trace-id\",\n  \"error\": {\n    \"identifier\": \"vidmob.scoring.badrequestexception\",\n    \"type\": \"BADREQUESTEXCEPTION\",\n    \"system\": \"scoring\",\n    \"message\": \"Example message\"\n  }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: ERROR
+                  traceId:
+                    type: string
+                    example: example-trace-id
+                  error:
+                    type: object
+                    properties:
+                      identifier:
+                        type: string
+                        example: vidmob.scoring.badrequestexception
+                      type:
+                        type: string
+                        example: BADREQUESTEXCEPTION
+                      system:
+                        type: string
+                        example: scoring
+                      message:
+                        type: string
+                        example: Example message
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n  \"statusCode\": 401,\n  \"message\": \"Request is Unauthorized\",\n  \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+      deprecated: false
+      security:
+      - sec0: []
+      tags:
+      - Scoring
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-bearer-format: bearer
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

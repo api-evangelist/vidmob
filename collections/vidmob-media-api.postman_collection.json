@@ -1,0 +1,1109 @@
+{
+  "item": [
+    {
+      "id": "686bd2a6-2287-4f6e-a609-82dd6102b49d",
+      "name": "Media",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "466e47f7-db46-46a3-97ab-937750ea7644",
+          "name": "Get Creative Tags Job Status",
+          "request": {
+            "name": "Get Creative Tags Job Status",
+            "description": {
+              "content": "This endpoint retrieves the status of a Creative Tags  Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "media",
+                "aperture",
+                ":jobId"
+              ],
+              "host": [
+                "{{v1-media-aperture-jobId-Url}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "jobId",
+                  "description": "(Required) The unique job identifier to retrieve the job status."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "be81fc2b-1a8e-47f0-8bc5-b49445299f88",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-jobId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique job identifier to retrieve the job status."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"OK\\\",\\n    \\\"result\\\": {\\n      \\\"job_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\\n      \\\"status\\\": \\\"PROCESSING\\\",\\n      \\\"date_created\\\": \\\"2025-02-01T10:30:00Z\\\",\\n      \\\"message\\\": \\\"Job is in progress. Processed 4 out of 12 media.\\\",\\n      \\\"creativeIdentifiers\\\": [\\n        \\\"creative_001\\\", \\\"creative_002\\\"\\n      ],\\n      \\\"clientTags\\\": {\\n          \\\"brand\\\": \\\"ExampleBrand\\\",\\n          \\\"market\\\": \\\"US\\\",\\n          \\\"channels\\\": \\\"meta, dv360\\\"\\n      }\\n    }\\n}\\n\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2c32bfa0-e8a0-480d-b8fa-07ac47e5e4b4",
+              "name": "401",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-jobId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique job identifier to retrieve the job status."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"statusCode\\\": 401,\\n  \\\"message\\\": \\\"Request is Unauthorized\\\",\\n  \\\"error\\\": \\\"Unauthorized\\\"\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "def15652-4303-405f-b340-a2d29d28e47a",
+              "name": "404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture",
+                    ":jobId"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-jobId-Url}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "jobId",
+                      "description": "(Required) The unique job identifier to retrieve the job status."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"ERROR\\\",\\n    \\\"traceId\\\": \\\"242933324125066912\\\",\\n    \\\"error\\\": {\\n        \\\"identifier\\\": \\\"example.api.notfoundexception\\\",\\n        \\\"type\\\": \\\"NOTFOUNDEXCEPTION\\\",\\n        \\\"system\\\": \\\"CreativeApertureService\\\",\\n        \\\"message\\\": \\\"Job with id 3b925ba0-6ea2-48ca-893b-9d181fe0c5981 not found\\\"\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fa86f593-2b4e-4dbe-b25d-1da52652e824",
+          "name": "Create Creative Tags Job",
+          "request": {
+            "name": "Create Creative Tags Job",
+            "description": {
+              "content": "This endpoint allows users to create a new Creative Tags job. It accepts a list of creative assets along with client tags and returns a job_id that can be used to track the job’s status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "media",
+                "aperture"
+              ],
+              "host": [
+                "{{v1-media-aperture-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"creatives\": \"<array>\",\n  \"clientTags\": \"<json>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "cd581cfd-d09c-4030-8a5c-19c3327689e0",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creatives\": [\n    {\n      \"id\": \"creative_001\",\n      \"url\": \"https://example.com/assets/image1.png\"\n    },\n    {\n      \"id\": \"creative_002\",\n      \"url\": \"https://example.com/assets/image2.png\"\n    }\n  ],\n  \"clientTags\": {\n    \"brand\": \"ExampleBrand\",\n    \"market\": \"US\",\n    \"channels\": \"meta, dv360\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"OK\\\",\\n    \\\"result\\\": {\\n      \\\"job_id\\\": \\\"123e4567-e89b-12d3-a456-426614174000\\\",\\n      \\\"status\\\": \\\"QUEUED\\\",\\n      \\\"date_created\\\": \\\"2025-02-01T10:30:00Z\\\",\\n      \\\"creativeIdentifiers\\\": [\\n        \\\"creative_001\\\", \\\"creative_002\\\"\\n      ],\\n      \\\"clientTags\\\": {\\n          \\\"brand\\\": \\\"ExampleBrand\\\",\\n          \\\"market\\\": \\\"US\\\",\\n          \\\"channels\\\": \\\"meta, dv360\\\"\\n      }\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ae0ecf01-884e-499e-8534-bc9dafb710eb",
+              "name": "400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creatives\": [\n    {\n      \"id\": \"creative_001\",\n      \"url\": \"https://example.com/assets/image1.png\"\n    },\n    {\n      \"id\": \"creative_002\",\n      \"url\": \"https://example.com/assets/image2.png\"\n    }\n  ],\n  \"clientTags\": {\n    \"brand\": \"ExampleBrand\",\n    \"market\": \"US\",\n    \"channels\": \"meta, dv360\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"ERROR\\\",\\n    \\\"traceId\\\": \\\"6697071182135860597\\\",\\n    \\\"error\\\": {\\n        \\\"identifier\\\": \\\"vidmob.api-bff.badrequestexception\\\",\\n        \\\"type\\\": \\\"BADREQUESTEXCEPTION\\\",\\n        \\\"system\\\": \\\"api-bff\\\",\\n        \\\"message\\\": [\\n            \\\"creatives must contain at least 1 elements\\\"\\n        ]\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4015f781-d6db-48c8-9132-0c1b524ee304",
+              "name": "401",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "aperture"
+                  ],
+                  "host": [
+                    "{{v1-media-aperture-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"creatives\": [\n    {\n      \"id\": \"creative_001\",\n      \"url\": \"https://example.com/assets/image1.png\"\n    },\n    {\n      \"id\": \"creative_002\",\n      \"url\": \"https://example.com/assets/image2.png\"\n    }\n  ],\n  \"clientTags\": {\n    \"brand\": \"ExampleBrand\",\n    \"market\": \"US\",\n    \"channels\": \"meta, dv360\"\n  }\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"statusCode\\\": 401,\\n  \\\"message\\\": \\\"Request is Unauthorized\\\",\\n  \\\"error\\\": \\\"Unauthorized\\\"\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "68c7f1f6-abe9-4ab7-ac2f-2cb387411c7b",
+          "name": "Upload Media For Scoring",
+          "request": {
+            "name": "Upload Media For Scoring",
+            "description": {
+              "content": "Lets you upload single media asset for scoring against your criteria.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "media"
+              ],
+              "host": [
+                "{{v1-media-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"<string>\",\n  \"url\": \"<string>\",\n  \"brands\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"markets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source\": \"<string>\",\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"channels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"workspaceId\": \"<integer>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "21de951e-9ac0-473f-a530-553515a3d194",
+              "name": "201",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media"
+                  ],
+                  "host": [
+                    "{{v1-media-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"url\": \"<string>\",\n  \"brands\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"markets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source\": \"<string>\",\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"channels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"workspaceId\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"OK\\\",\\n    \\\"result\\\": {\\n        \\\"uniqueId\\\": \\\"example-unique-id\\\"\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96122c6a-4e8a-4800-927f-5c34aeb5e30b",
+              "name": "400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media"
+                  ],
+                  "host": [
+                    "{{v1-media-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"url\": \"<string>\",\n  \"brands\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"markets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source\": \"<string>\",\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"channels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"workspaceId\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"status\\\": \\\"ERROR\\\",\\n  \\\"traceId\\\": \\\"example-trace-id\\\",\\n  \\\"error\\\": {\\n    \\\"identifier\\\": \\\"vidmob.scoring.badrequestexception\\\",\\n    \\\"type\\\": \\\"BADREQUESTEXCEPTION\\\",\\n    \\\"system\\\": \\\"scoring\\\",\\n    \\\"message\\\": \\\"Example message\\\"\\n  }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e6a8100-2637-4447-ba37-b49981c00d00",
+              "name": "401",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media"
+                  ],
+                  "host": [
+                    "{{v1-media-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"url\": \"<string>\",\n  \"brands\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"markets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source\": \"<string>\",\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"channels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"workspaceId\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"statusCode\\\": 401,\\n  \\\"message\\\": \\\"Request is Unauthorized\\\",\\n  \\\"error\\\": \\\"Unauthorized\\\"\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "309e4646-e5fb-4871-af07-7d1e5de12075",
+              "name": "409",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media"
+                  ],
+                  "host": [
+                    "{{v1-media-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": \"<string>\",\n  \"url\": \"<string>\",\n  \"brands\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"markets\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"source\": \"<string>\",\n  \"version\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"channels\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"workspaceId\": \"<integer>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Conflict",
+              "code": 409,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"ERROR\\\",\\n    \\\"traceId\\\": \\\"7788004045100701669\\\",\\n    \\\"error\\\": {\\n        \\\"identifier\\\": \\\"vidmob.api-bff.conflictexception\\\",\\n        \\\"type\\\": \\\"CONFLICTEXCEPTION\\\",\\n        \\\"system\\\": \\\"scoring\\\",\\n        \\\"message\\\": \\\"A media entry with id 'example-media-id' and version 'example-version' already exists\\\"\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c3c224fa-1661-4dc6-a8c3-c7dadd57e506",
+          "name": "Get Media Scoring Status",
+          "request": {
+            "name": "Get Media Scoring Status",
+            "description": {
+              "content": "Provides a way to check media scoring status.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "media",
+                ":mediaId",
+                "status"
+              ],
+              "host": [
+                "{{v1-media-mediaId-status-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "source",
+                  "value": "<string>",
+                  "description": "Specifies the media source"
+                },
+                {
+                  "disabled": false,
+                  "key": "version",
+                  "value": "<string>",
+                  "description": "Specifies the media version"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mediaId",
+                  "description": "(Required) ID that identifies the media"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ca955f28-d252-4e70-94c2-9301f087531b",
+              "name": "200",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    ":mediaId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{v1-media-mediaId-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) ID that identifies the media"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n    \\\"status\\\": \\\"OK\\\",\\n    \\\"result\\\": {\\n        \\\"uniqueId\\\": \\\"example-media-unique-id\\\",\\n        \\\"source\\\": \\\"example-media-version\\\",\\n        \\\"id\\\": \\\"example-media-id\\\",\\n        \\\"version\\\": \\\"example-media-version\\\",\\n        \\\"status\\\": \\\"One of [COMPLETE, PROCESSING, UNSUPPORTED, FAILED, ERROR]\\\"\\n    }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "57d4c867-4b87-4667-bc80-57b2907efa50",
+              "name": "400",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    ":mediaId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{v1-media-mediaId-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) ID that identifies the media"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"status\\\": \\\"ERROR\\\",\\n  \\\"traceId\\\": \\\"example-trace-id\\\",\\n  \\\"error\\\": {\\n    \\\"identifier\\\": \\\"vidmob.scoring.badrequestexception\\\",\\n    \\\"type\\\": \\\"BADREQUESTEXCEPTION\\\",\\n    \\\"system\\\": \\\"scoring\\\",\\n    \\\"message\\\": \\\"Example message\\\"\\n  }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "51ee7cf3-a250-40b5-95b4-0c7273a089e4",
+              "name": "404",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    ":mediaId",
+                    "status"
+                  ],
+                  "host": [
+                    "{{v1-media-mediaId-status-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "source",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "version",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) ID that identifies the media"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "\"{\\n  \\\"status\\\": \\\"ERROR\\\",\\n  \\\"traceId\\\": \\\"example-trace-id\\\",\\n  \\\"error\\\": {\\n    \\\"identifier\\\": \\\"vidmob.scoring.notfoundexception\\\",\\n    \\\"type\\\": \\\"NOTFOUNDEXCEPTION\\\",\\n    \\\"system\\\": \\\"scoring\\\",\\n    \\\"message\\\": \\\"No API media record found for external media ID: example-media-id with source: example-source and version: example-version\\\"\\n  }\\n}\"",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a21d6611-35bf-4298-b8c0-83deda05b17e",
+          "name": "get v1mediaupdated-scores",
+          "request": {
+            "name": "get v1mediaupdated-scores",
+            "description": {
+              "content": "",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "media",
+                "updated-scores"
+              ],
+              "host": [
+                "{{v1-media-updated-scores-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "param",
+                  "value": "<number>",
+                  "description": "(Required) workspaceId"
+                },
+                {
+                  "disabled": false,
+                  "key": "param1",
+                  "value": "<string>",
+                  "description": "updatedSince"
+                },
+                {
+                  "disabled": false,
+                  "key": "param2",
+                  "value": "10",
+                  "description": "perPage"
+                },
+                {
+                  "disabled": false,
+                  "key": "param3",
+                  "value": "0",
+                  "description": "offset"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a7c39ebe-81a8-45b9-abe7-d28c2618cf03",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "media",
+                    "updated-scores"
+                  ],
+                  "host": [
+                    "{{v1-media-updated-scores-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "param",
+                      "value": "<number>"
+                    },
+                    {
+                      "key": "param1",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "param2",
+                      "value": "10"
+                    },
+                    {
+                      "key": "param3",
+                      "value": "0"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "v1-media-aperture-jobId-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "v1-media-aperture-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "v1-media-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "v1-media-mediaId-status-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://public-api.vidmob.com",
+      "key": "v1-media-updated-scores-Url"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "Authorization"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "962363fb-d7ac-4fbf-8c2e-48a89a95d286",
+    "name": "Vidmob Media API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged Media across 2 of this provider's published API definitions: vidmob-creative-aperture-openapi.json, vidmob-creative-scoring-openapi.json. Each path carries the servers of the definition it was published in.",
+      "type": "text/plain"
+    }
+  }
+}

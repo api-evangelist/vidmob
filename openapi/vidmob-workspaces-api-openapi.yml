@@ -1,0 +1,102 @@
+openapi: 3.2.0
+info:
+  title: public-api Workspaces API
+  version: '2'
+servers:
+- url: https://public-api.vidmob.com
+security:
+- sec0: []
+tags:
+- name: Workspaces
+paths:
+  /v1/workspaces:
+    get:
+      summary: Workspaces
+      description: ''
+      operationId: get-organization-copy
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"status\": \"OK\",\n    \"result\": [\n        {\n            \"id\": 12345,\n            \"name\": \"Workspace 1\"\n        },\n        {\n            \"id\": 67890,\n            \"name\": \"Workspace 2\"\n        }\n    ],\n    \"pagination\": {\n        \"offset\": 0,\n        \"perPage\": 10,\n        \"nextOffset\": 10,\n        \"totalSize\": 2\n    }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  result:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 12345
+                          default: 0
+                        name:
+                          type: string
+                          example: Workspace 1
+                  pagination:
+                    type: object
+                    properties:
+                      offset:
+                        type: integer
+                        example: 0
+                        default: 0
+                      perPage:
+                        type: integer
+                        example: 10
+                        default: 0
+                      nextOffset:
+                        type: integer
+                        example: 10
+                        default: 0
+                      totalSize:
+                        type: integer
+                        example: 2
+                        default: 0
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"statusCode\": 401,\n    \"message\": \"Request is Unauthorized\",\n    \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: shell
+          code: curl --location 'https://public-api.vidmob.com/v1/workspaces'
+        samples-languages:
+        - shell
+      tags:
+      - Workspaces
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-bearer-format: bearer
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

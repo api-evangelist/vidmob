@@ -1,0 +1,142 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Vidmob Media API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Creative Tags Job Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/media/aperture/:jobId",
+            "params": [
+              {
+                "name": "jobId",
+                "value": "",
+                "type": "path",
+                "description": "The unique job identifier to retrieve the job status."
+              }
+            ]
+          },
+          "docs": "This endpoint retrieves the status of a Creative Tags  Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results."
+        },
+        {
+          "info": {
+            "name": "Create Creative Tags Job",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://public-api.vidmob.com/v1/media/aperture",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint allows users to create a new Creative Tags job. It accepts a list of creative assets along with client tags and returns a job_id that can be used to track the job’s status."
+        },
+        {
+          "info": {
+            "name": "Upload Media For Scoring",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://public-api.vidmob.com/v1/media",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Lets you upload single media asset for scoring against your criteria."
+        },
+        {
+          "info": {
+            "name": "Get Media Scoring Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/media/:mediaId/status",
+            "params": [
+              {
+                "name": "mediaId",
+                "value": "",
+                "type": "path",
+                "description": "ID that identifies the media"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the media source"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the media version"
+              }
+            ]
+          },
+          "docs": "Provides a way to check media scoring status."
+        },
+        {
+          "info": {
+            "name": "get_v1mediaupdated-scores",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/media/updated-scores",
+            "params": [
+              {
+                "name": "param",
+                "value": "",
+                "type": "query",
+                "description": "workspaceId"
+              },
+              {
+                "name": "param1",
+                "value": "",
+                "type": "query",
+                "description": "updatedSince"
+              },
+              {
+                "name": "param2",
+                "value": "",
+                "type": "query",
+                "description": "perPage"
+              },
+              {
+                "name": "param3",
+                "value": "",
+                "type": "query",
+                "description": "offset"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

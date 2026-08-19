@@ -1,0 +1,80 @@
+openapi: 3.2.0
+info:
+  title: public-api Organization API
+  version: '2'
+servers:
+- url: https://public-api.vidmob.com
+security:
+- sec0: []
+tags:
+- name: Organization
+paths:
+  /v1/organization:
+    get:
+      summary: Organization
+      description: ''
+      operationId: get-organization
+      responses:
+        '200':
+          description: '200'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"status\": \"OK\",\n    \"result\": {\n        \"id\": \"05d540de-9403-48e8-bf19-4f9793c16083\",\n        \"name\": \"Your Organization Name\"\n    }\n}"
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: OK
+                  result:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: 05d540de-9403-48e8-bf19-4f9793c16083
+                      name:
+                        type: string
+                        example: Your Organization Name
+        '401':
+          description: '401'
+          content:
+            application/json:
+              examples:
+                Result:
+                  value: "{\n    \"statusCode\": 401,\n    \"message\": \"Request is Unauthorized\",\n    \"error\": \"Unauthorized\"\n}"
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                    example: 401
+                    default: 0
+                  message:
+                    type: string
+                    example: Request is Unauthorized
+                  error:
+                    type: string
+                    example: Unauthorized
+      deprecated: false
+      x-readme:
+        code-samples:
+        - language: shell
+          code: curl --location 'https://public-api.vidmob.com/v1/organization'
+        samples-languages:
+        - shell
+      tags:
+      - Organization
+components:
+  securitySchemes:
+    sec0:
+      type: apiKey
+      in: header
+      name: Authorization
+      x-bearer-format: bearer
+x-readme:
+  headers: []
+  explorer-enabled: true
+  proxy-enabled: true
+x-readme-fauxas: true

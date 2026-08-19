@@ -1,0 +1,244 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "creative Scoring API",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "Authorization",
+      "value": "{{Authorization}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Scoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Workspace Scorecards",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/scoring/workspace/:workspaceId/scorecards",
+            "params": [
+              {
+                "name": "workspaceId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the workspace you want to query scorecards for"
+              },
+              {
+                "name": "scoreDetail",
+                "value": "",
+                "type": "query",
+                "description": "Include score details in response"
+              },
+              {
+                "name": "sortOrder",
+                "value": "",
+                "type": "query",
+                "description": "Tells the API how to sort the output"
+              },
+              {
+                "name": "sortBy",
+                "value": "",
+                "type": "query",
+                "description": "Specfies the property to sort on"
+              },
+              {
+                "name": "types",
+                "value": "",
+                "type": "query",
+                "description": "Scorecard type"
+              },
+              {
+                "name": "channels",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of channels"
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter scorecards that have a start date greater than this date"
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Filter scorecards that have an end date less than this date"
+              },
+              {
+                "name": "markets",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of markets"
+              },
+              {
+                "name": "creators",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of user ids that created the scorecards"
+              },
+              {
+                "name": "statuses",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of scorecared statuses"
+              },
+              {
+                "name": "searchText",
+                "value": "",
+                "type": "query",
+                "description": "Search text"
+              },
+              {
+                "name": "brands",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of brands"
+              }
+            ]
+          },
+          "docs": "This endpoint gets a list of scorecards for a given workspace. It supports several filtering options through query params."
+        },
+        {
+          "info": {
+            "name": "Get Media Score",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/scoring/media/:mediaId/scores",
+            "params": [
+              {
+                "name": "mediaId",
+                "value": "",
+                "type": "path",
+                "description": "ID that identifies the media"
+              },
+              {
+                "name": "channel",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated list of platforms for which to get the media score"
+              },
+              {
+                "name": "source",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the media source"
+              },
+              {
+                "name": "version",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the media version"
+              },
+              {
+                "name": "consideration",
+                "value": "",
+                "type": "query",
+                "description": "Specifies criteria consideration (MANDATORY,OPTIONAL or both)"
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query",
+                "description": "Specifies the resonse format"
+              }
+            ]
+          },
+          "docs": "Provides criteria scores for media if they are available."
+        },
+        {
+          "info": {
+            "name": "Get Criteria Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://public-api.vidmob.com/v1/scoring/criteria/metadata",
+            "params": [
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter to set page size"
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter to specify offset from zero."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "This endpoint provides a list of criteria across all workspaces in an organization along with the organization level criteria."
+        },
+        {
+          "info": {
+            "name": "Get Scorecard Media Metadata",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://public-api.vidmob.com/v1/scoring/scorecard/:scorecardId/media-metadata",
+            "params": [
+              {
+                "name": "scorecardId",
+                "value": "",
+                "type": "path",
+                "description": "ID of the scorecard to fetch media metadata for."
+              },
+              {
+                "name": "startDate",
+                "value": "",
+                "type": "query",
+                "description": "Impression start for inflight media—disregarded for preflight. Defaults to 3 months back."
+              },
+              {
+                "name": "endDate",
+                "value": "",
+                "type": "query",
+                "description": "Impression end date—similarly disregarded for preflight. Defaults to current day. "
+              },
+              {
+                "name": "perPage",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter to set page size."
+              },
+              {
+                "name": "offSet",
+                "value": "",
+                "type": "query",
+                "description": "Pagination parameter to specify offset from 0."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "Authorization",
+              "value": "{{Authorization}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Fetches a list of metadata objects for media in a given scorecard. When a date range is provided, it applies only to inflight scorecards and retrieves media with impressions within that range. Dates are otherwise disregarded for preflight scorecards."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
