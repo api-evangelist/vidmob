@@ -20,6 +20,19 @@ specificationVersion: '0.23'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
+  - Creative Intelligence
+  - creative-data
+  - Advertising
+  - Marketing
+  - Media Measurement
+  - Video
+  - Computer-Vision
+  - Creative Analytics
+  - AdTech
+  - MCP
+  - agent-native
+  - MarTech
+tags_raw:
   - creative-intelligence
   - creative-data
   - advertising
@@ -44,6 +57,12 @@ apis:
   humanURL: https://help.vidmob.com/en/articles/15465541-setting-up-the-vidmob-mcp-connector
   baseURL: https://mcp.vidmob.com/mcp
   tags:
+  - MCP
+  - agent-native
+  - Creative Intelligence
+  - creative-data
+  - Advertising
+  tags_raw:
   - mcp
   - agent-native
   - creative-intelligence
