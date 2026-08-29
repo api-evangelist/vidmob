@@ -12,6 +12,18 @@ description: >-
   a hosted remote MCP server at https://mcp.vidmob.com/mcp with OAuth + PKCE, dynamic client registration and
   scope-gated tool visibility, so agents on Claude, ChatGPT, Gemini Enterprise or a customer's own framework can query
   creative inventory, scores, attributes and performance directly.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://vidmob.com/hubfs/VM_FaviconArtboard%201.png
 url: https://raw.githubusercontent.com/api-evangelist/vidmob/refs/heads/main/apis.yml
 x-type: company
