@@ -32,18 +32,18 @@ specificationVersion: '0.23'
 created: '2026-08-05'
 modified: '2026-08-05'
 tags:
-  - Creative Intelligence
+  - creative-intelligence
   - creative-data
   - Advertising
   - Marketing
-  - Media Measurement
+  - media-measurement
   - Video
-  - Computer-Vision
-  - Creative Analytics
-  - AdTech
+  - computer-vision
+  - creative-analytics
+  - adtech
   - MCP
   - agent-native
-  - MarTech
+  - martech
 tags_raw:
   - creative-intelligence
   - creative-data
@@ -71,7 +71,7 @@ apis:
   tags:
   - MCP
   - agent-native
-  - Creative Intelligence
+  - creative-intelligence
   - creative-data
   - Advertising
   tags_raw:
