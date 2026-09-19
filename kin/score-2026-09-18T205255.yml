@@ -1,28 +1,29 @@
-# Kin Score artifact — vidmob — 2026-08-17T064519
+# Kin Score artifact — vidmob — 2026-09-18T205255
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: vidmob
-  schema_version: 0.11.0
-  scored_at: '2026-08-17'
-  run_ts: 2026-08-17T064519
-  composite: 49.4
+  schema_version: 0.22.0
+  scored_at: '2026-09-18'
+  run_ts: 2026-09-18T205255
+  composite: 39.8
   band: developing
   facets:
-    discoverability: 92.6
-    contract_quality: 60.3
-    governance: 11.5
-    operational_transparency: 21.1
-    developer_ergonomics: 62.5
-    commercial_clarity: 42.1
+    discoverability: 81.5
+    contract_quality: 55.0
+    contract_governance: 4.5
+    operational_transparency: 18.4
+    developer_ergonomics: 49.4
+    access_clarity: 28.9
   agent_readiness:
-    score: 53.4
+    score: 54.1
     band: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
-      mcp_server: true
-      auth_clarity: true
+      reversibility_documented: false
+      mcp_server: verified
+      auth_clarity: served
       idempotency: documented
       error_semantics: documented
       openapi_examples: verified
@@ -33,6 +34,10 @@ kin_score:
       consent_identity: false
       agent_card: false
       dry_run_mode: false
+      delegated_identity: served
+      protected_resource_metadata: verified
+      dynamic_client_registration: true
+      agentic_commerce: false
   provenance:
     mcp: first-party
     skills: derived

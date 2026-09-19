@@ -177,6 +177,8 @@ apis:
   humanURL: https://vidmob-api-docs.readme.io/reference/getting-started-with-your-api-1
   baseURL: https://public-api.vidmob.com
   tags:
+  - Workspace
+  tags_raw:
   - Workspaces
   properties:
   - type: OpenAPI
