@@ -1,26 +1,47 @@
 {
   "provider": "vidmob",
   "sources": [
-    "vidmob-media-api-openapi.yml",
-    "vidmob-organization-api-openapi.yml",
-    "vidmob-scoring-api-openapi.yml",
-    "vidmob-workspaces-api-openapi.yml"
+    "_original/vidmob-creative-aperture-openapi.json",
+    "_original/vidmob-creative-scoring-openapi.json",
+    "_original/vidmob-public-api-openapi.json"
   ],
   "outputs": [
     "vidmob-media-api-openapi.yml",
-    "vidmob-organization-api-openapi.yml",
     "vidmob-scoring-api-openapi.yml",
+    "vidmob-organization-api-openapi.yml",
     "vidmob-workspaces-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
-    "vidmob-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vidmob-organization-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vidmob-scoring-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "vidmob-workspaces-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "vidmob-creative-aperture-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-creative-aperture-openapi.json: tagged paths GET /v1/media/aperture/{jobId} -> Media",
+    "vidmob-creative-aperture-openapi.json: tagged paths POST /v1/media/aperture -> Media",
+    "vidmob-creative-aperture-openapi.json: declared missing tag: Media",
+    "vidmob-creative-scoring-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-creative-scoring-openapi.json: tagged paths GET /v1/scoring/workspace/{workspaceId}/scorecards -> Scoring",
+    "vidmob-creative-scoring-openapi.json: tagged paths GET /v1/scoring/media/{mediaId}/scores -> Scoring",
+    "vidmob-creative-scoring-openapi.json: tagged paths POST /v1/media -> Media",
+    "vidmob-creative-scoring-openapi.json: tagged paths GET /v1/media/{mediaId}/status -> Media",
+    "vidmob-creative-scoring-openapi.json: tagged paths POST /v1/scoring/criteria/metadata -> Scoring",
+    "vidmob-creative-scoring-openapi.json: tagged paths GET /v1/scoring/scorecard/{scorecardId}/media-metadata -> Scoring",
+    "vidmob-creative-scoring-openapi.json: tagged paths GET /v1/media/updated-scores -> Media",
+    "vidmob-creative-scoring-openapi.json: declared missing tag: Media",
+    "vidmob-creative-scoring-openapi.json: declared missing tag: Scoring",
+    "vidmob-public-api-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "vidmob-public-api-openapi.json: tagged paths GET /v1/organization -> Organization",
+    "vidmob-public-api-openapi.json: tagged paths GET /v1/workspaces -> Workspaces",
+    "vidmob-public-api-openapi.json: declared missing tag: Organization",
+    "vidmob-public-api-openapi.json: declared missing tag: Workspaces",
+    "tag 'Media' spans 2 source specs (vidmob-creative-aperture-openapi.json, vidmob-creative-scoring-openapi.json): per-path servers applied",
     "apis.yml register: already-registered"
   ],
-  "skipped": []
+  "skipped": [
+    "vidmob-media-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vidmob-organization-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vidmob-scoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "vidmob-workspaces-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

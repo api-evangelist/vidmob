@@ -11,11 +11,9 @@ tags:
 - name: Media
 paths:
   /v1/media/aperture/{jobId}:
-    servers:
-    - url: https://public-api.vidmob.com
     get:
       summary: Get Creative Tags Job Status
-      description: This endpoint retrieves the status of a Creative Tags  Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results.
+      description: This endpoint retrieves the status of a Creative Tags Job using the provided jobId. It returns details about the job, including its status, associated media, and processing results.
       operationId: get-creative-aperture-job-status
       parameters:
       - name: jobId
@@ -221,9 +219,9 @@ paths:
       deprecated: false
       tags:
       - Media
-  /v1/media/aperture:
     servers:
     - url: https://public-api.vidmob.com
+  /v1/media/aperture:
     post:
       summary: Create Creative Tags Job
       description: This endpoint allows users to create a new Creative Tags job. It accepts a list of creative assets along with client tags and returns a job_id that can be used to track the job’s status.
@@ -413,9 +411,9 @@ paths:
       deprecated: false
       tags:
       - Media
-  /v1/media:
     servers:
     - url: https://public-api.vidmob.com
+  /v1/media:
     post:
       summary: Upload Media For Scoring
       description: Lets you upload single media asset for scoring against your criteria.
@@ -571,9 +569,9 @@ paths:
       deprecated: false
       tags:
       - Media
-  /v1/media/{mediaId}/status:
     servers:
     - url: https://public-api.vidmob.com
+  /v1/media/{mediaId}/status:
     get:
       summary: Get Media Scoring Status
       description: Provides a way to check media scoring status.
@@ -692,9 +690,9 @@ paths:
       deprecated: false
       tags:
       - Media
-  /v1/media/updated-scores:
     servers:
     - url: https://public-api.vidmob.com
+  /v1/media/updated-scores:
     get:
       description: ''
       operationId: get_v1mediaupdated-scores
@@ -727,6 +725,10 @@ paths:
         description: offset
       tags:
       - Media
+      summary: Get v1mediaupdated scores
+      x-summary-source: derived
+    servers:
+    - url: https://public-api.vidmob.com
 components:
   securitySchemes:
     sec0:
