@@ -52,11 +52,11 @@ tags:
   - Marketing
   - Media Measurement
   - Video
-  - Computer-Vision
+  - Computer Vision
   - Creative Analytics
   - AdTech
   - MCP
-  - agent-native
+  - Agent-Native
   - MarTech
 tags_raw:
   - creative-intelligence
@@ -71,6 +71,7 @@ tags_raw:
   - mcp
   - agent-native
   - martech
+  - Computer-Vision
 apis:
 - name: Vidmob MCP Server
   description: >-
@@ -84,7 +85,7 @@ apis:
   baseURL: https://mcp.vidmob.com/mcp
   tags:
   - MCP
-  - agent-native
+  - Agent-Native
   - Creative Intelligence
   - creative-data
   - Advertising
